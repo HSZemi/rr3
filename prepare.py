@@ -184,48 +184,32 @@ for rmsfile in rmsfiles:
 		print(PATCH_HEADER.format(mapname=foldername, variant='rms part for ZR map'), file=outrms)
 		for line in inrms:
 			if '<PLAYER_SETUP>' in line:
-				scxPart = False
-				rmsPart = True
 				endOfStart = inStart
-				inPlayerSetup = True
 				endOfObjectsGeneration = inObjectsGeneration
 			if '<LAND_GENERATION>' in line:
-				scxPart = True
-				rmsPart = False
 				endOfStart = inStart
 				endOfPlayerSetup = inPlayerSetup
 				endOfObjectsGeneration = inObjectsGeneration
 			if '<ELEVATION_GENERATION>' in line:
-				scxPart = True
-				rmsPart = False
 				endOfStart = inStart
 				endOfPlayerSetup = inPlayerSetup
 				endOfObjectsGeneration = inObjectsGeneration
 			if '<CLIFF_GENERATION>' in line:
-				scxPart = True
-				rmsPart = False
 				endOfStart = inStart
 				endOfPlayerSetup = inPlayerSetup
 				endOfObjectsGeneration = inObjectsGeneration
 			if '<TERRAIN_GENERATION>' in line:
-				scxPart = True
-				rmsPart = False
 				endOfStart = inStart
 				endOfPlayerSetup = inPlayerSetup
 				endOfObjectsGeneration = inObjectsGeneration
 			if '<CONNECTION_GENERATION>' in line:
-				scxPart = False
-				rmsPart = True
 				endOfStart = inStart
 				endOfPlayerSetup = inPlayerSetup
 				endOfObjectsGeneration = inObjectsGeneration
 			if '<OBJECTS_GENERATION>' in line:
-				scxPart = False
-				rmsPart = True
 				endOfStart = inStart
 				endOfPlayerSetup = inPlayerSetup
-				endOfObjectsGeneration = inObjectsGeneration
-				inObjectsGeneration = True
+			
 			if endOfStart:
 				print(PATCH_START, file=outscx)
 				print(PATCH_START, file=outrms)
@@ -245,6 +229,32 @@ for rmsfile in rmsfiles:
 					print(PATCH_OBJECTS_GENERATION, file=outrms)
 				inObjectsGeneration = False
 				endOfObjectsGeneration = False
+			
+			
+			if '<PLAYER_SETUP>' in line:
+				scxPart = False
+				rmsPart = True
+				inPlayerSetup = True
+			if '<LAND_GENERATION>' in line:
+				scxPart = True
+				rmsPart = False
+			if '<ELEVATION_GENERATION>' in line:
+				scxPart = False
+				rmsPart = True
+			if '<CLIFF_GENERATION>' in line:
+				scxPart = False
+				rmsPart = True
+			if '<TERRAIN_GENERATION>' in line:
+				scxPart = False
+				rmsPart = True
+			if '<CONNECTION_GENERATION>' in line:
+				scxPart = False
+				rmsPart = True
+			if '<OBJECTS_GENERATION>' in line:
+				scxPart = False
+				rmsPart = True
+				inObjectsGeneration = True
+			
 			if scxPart:
 				print(line, file=outscx, end='')
 			if rmsPart:
