@@ -11,6 +11,7 @@ interval_seconds_first_wave = 10
 interval_seconds_second_wave = 10
 attack_value_first_wave = 5
 attack_value_second_wave = 5
+timer_terrain = 'DESERT'
 
 # calculating values...
 
@@ -107,6 +108,56 @@ effect_amount GAIA_SET_PLAYER_DATA DATA_MODE_FLAGS ATTR_SET 3
 	radius_rabid_wolf=radius_rabid_wolf
 	)
 
+PATCH_OBJECTS_GENERATION = '''
+
+/* timers */
+
+create_object FAKE_DEER
+{
+    number_of_objects 999
+    terrain_to_place_on %TIMER_TERRAIN%
+    set_gaia_object_only
+    temp_min_distance_group_placement 4
+}
+
+create_object HUNTING_WOLF
+{
+    number_of_objects 999
+    terrain_to_place_on %TIMER_TERRAIN%
+    set_gaia_object_only
+    temp_min_distance_group_placement 4
+}
+
+/* Regicide ingredients */
+
+create_object VILLAGER
+{
+    number_of_groups 7
+    number_of_objects 1
+    set_place_for_every_player
+    temp_min_distance_group_placement 2
+    min_distance_group_placement 2
+    min_distance_to_players 3
+    max_distance_to_players 7
+}
+
+create_object HOUSE
+{
+    number_of_groups 2
+    set_place_for_every_player
+    max_distance_to_players 12
+    min_distance_group_placement 2
+    temp_min_distance_group_placement 12
+}
+
+create_object KING
+{
+    set_place_for_every_player
+    max_distance_to_players 5
+}
+
+'''.replace('%TIMER_TERRAIN%', timer_terrain)
+
 rmsfiles = []
 for filename in os.listdir('.'):
 	if filename[-4:] == '.rms':
@@ -120,6 +171,8 @@ for rmsfile in rmsfiles:
 	endOfStart = False
 	inPlayerSetup = False
 	endOfPlayerSetup = False
+	inObjectsGeneration = False
+	endOfObjectsGeneration = False
 	foldername = rmsfile[:-4].replace('ZR@','')
 	print('Creating folder ' + foldername)
 	os.makedirs(os.path.join('output', foldername), exist_ok=True)
@@ -135,47 +188,88 @@ for rmsfile in rmsfiles:
 				rmsPart = True
 				endOfStart = inStart
 				inPlayerSetup = True
+				endOfObjectsGeneration = inObjectsGeneration
 			if '<LAND_GENERATION>' in line:
 				scxPart = True
 				rmsPart = False
 				endOfStart = inStart
 				endOfPlayerSetup = inPlayerSetup
+				endOfObjectsGeneration = inObjectsGeneration
 			if '<ELEVATION_GENERATION>' in line:
 				scxPart = True
 				rmsPart = False
 				endOfStart = inStart
 				endOfPlayerSetup = inPlayerSetup
+				endOfObjectsGeneration = inObjectsGeneration
 			if '<CLIFF_GENERATION>' in line:
 				scxPart = True
 				rmsPart = False
 				endOfStart = inStart
 				endOfPlayerSetup = inPlayerSetup
+				endOfObjectsGeneration = inObjectsGeneration
 			if '<TERRAIN_GENERATION>' in line:
 				scxPart = True
 				rmsPart = False
 				endOfStart = inStart
 				endOfPlayerSetup = inPlayerSetup
+				endOfObjectsGeneration = inObjectsGeneration
 			if '<CONNECTION_GENERATION>' in line:
 				scxPart = False
 				rmsPart = True
 				endOfStart = inStart
 				endOfPlayerSetup = inPlayerSetup
+				endOfObjectsGeneration = inObjectsGeneration
 			if '<OBJECTS_GENERATION>' in line:
 				scxPart = False
 				rmsPart = True
 				endOfStart = inStart
 				endOfPlayerSetup = inPlayerSetup
+				endOfObjectsGeneration = inObjectsGeneration
+				inObjectsGeneration = True
 			if endOfStart:
 				print(PATCH_START, file=outscx)
 				print(PATCH_START, file=outrms)
 				inStart = False
 				endOfStart = False
 			if endOfPlayerSetup:
-				print(PATCH_PLAYER_SETUP, file=outscx)
-				print(PATCH_PLAYER_SETUP, file=outrms)
+				if scxPart:
+					print(PATCH_PLAYER_SETUP, file=outscx)
+				if rmsPart:
+					print(PATCH_PLAYER_SETUP, file=outrms)
 				inPlayerSetup = False
 				endOfPlayerSetup = False
+			if endOfObjectsGeneration:
+				if scxPart:
+					print(PATCH_OBJECTS_GENERATION, file=outscx)
+				if rmsPart:
+					print(PATCH_OBJECTS_GENERATION, file=outrms)
+				inObjectsGeneration = False
+				endOfObjectsGeneration = False
 			if scxPart:
 				print(line, file=outscx, end='')
 			if rmsPart:
 				print(line, file=outrms, end='')
+				
+		endOfStart = inStart
+		endOfPlayerSetup = inPlayerSetup
+		endOfObjectsGeneration = inObjectsGeneration
+		
+		if endOfStart:
+			print(PATCH_START, file=outscx)
+			print(PATCH_START, file=outrms)
+			inStart = False
+			endOfStart = False
+		if endOfPlayerSetup:
+			if scxPart:
+				print(PATCH_PLAYER_SETUP, file=outscx)
+			if rmsPart:
+				print(PATCH_PLAYER_SETUP, file=outrms)
+			inPlayerSetup = False
+			endOfPlayerSetup = False
+		if endOfObjectsGeneration:
+			if scxPart:
+				print(PATCH_OBJECTS_GENERATION, file=outscx)
+			if rmsPart:
+				print(PATCH_OBJECTS_GENERATION, file=outrms)
+			inObjectsGeneration = False
+			endOfObjectsGeneration = False
