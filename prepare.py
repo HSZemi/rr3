@@ -3,27 +3,6 @@
 import os
 import math
 
-minutes_until_first_wave = 90
-minutes_until_second_wave = 120
-radius_first_wave_tiles = 20
-radius_second_wave_tiles = 40
-interval_seconds_first_wave = 10
-interval_seconds_second_wave = 10
-attack_value_first_wave = 5
-attack_value_second_wave = 5
-timer_terrain = 'DESERT'
-
-# calculating values...
-
-storage_value_fake_deer = math.floor(minutes_until_first_wave * 60 / 4)
-storage_value_hunting_wolf = math.floor(minutes_until_second_wave * 60 / 2)
-storage_value_dire_wolf = math.floor(interval_seconds_first_wave / 2)
-storage_value_rabid_wolf = math.floor(interval_seconds_second_wave / 2)
-attack_dire_wolf = attack_value_first_wave
-attack_rabid_wolf = attack_value_second_wave
-radius_dire_wolf = radius_first_wave_tiles
-radius_rabid_wolf = radius_second_wave_tiles
-
 PATCH_HEADER = '''/* ** REGICIDE RUMBLE 3 ** */
 /* an event by T90Official */
 /* Map: {mapname} ({variant}) */
@@ -41,17 +20,27 @@ PATCH_HEADER = '''/* ** REGICIDE RUMBLE 3 ** */
 
 PATCH_START = '''
 /* timers */
- 
-#const FAKE_DEER 333
-#const HUNTING_WOLF 700
+
+#const COUNTDOWN01 486 /* bear */
+#const COUNTDOWN02 812 /* jag */
+#const COUNTDOWN03 1029 /* lion */
+#const COUNTDOWN04 1031 /* croc */
+#const COUNTDOWN05 1135 /* komodo */
+#const COUNTDOWN06 1137 /* tiger */
+#const COUNTDOWN07 860 /* monkey */
 
 /* exploders */
-#const DIRE_WOLF 89 
-#const RABID_WOLF 202 
- 
-/* disable hunters */
-#const VILLAGER_HUNTER_M 122
-#const VILLAGER_HUNTER_F 216
+#const STORM01 89 /* direwolf */
+#const STORM02 202 /* rabidwolf */
+#const STORM03 707 /* ornlu */
+#const STORM04 810 /* ironboar */
+#const STORM05 544 /* flyingdog */
+#const STORM06 594 /* sheep */
+#const STORM07 705 /* cow */
+
+/* disable gathering from stormy animals */
+#const VILLAGER_BASE_M 83
+#const VILLAGER_BASE_F 293
 
 /* relic spawning */
 #const PRIEST_WITH_RELIC 1025
@@ -94,10 +83,10 @@ PATCH_START = '''
 '''
 
 PATCH_PLAYER_SETUP = '''
-/* disable hunter workrate */
+/* disable gathering from stormy animals */
 
-effect_amount SET_ATTRIBUTE VILLAGER_HUNTER_M ATTR_WORK_RATE 0
-effect_amount SET_ATTRIBUTE VILLAGER_HUNTER_F ATTR_WORK_RATE 0
+effect_amount SET_ATTRIBUTE VILLAGER_BASE_M ATTR_WORK_RATE 0
+effect_amount SET_ATTRIBUTE VILLAGER_BASE_F ATTR_WORK_RATE 0
 
 /* king drops relic */
 
@@ -160,71 +149,98 @@ guard_state KING AMOUNT_GOLD 0 1
 effect_amount GAIA_SET_PLAYER_DATA DATA_MODE_FLAGS ATTR_SET 3
 
 
-/* timers (predators decay 1food/2secs and other hunt decays 1food/4secs) */
- 
-/* first wave */
-	effect_amount SET_ATTRIBUTE FAKE_DEER ATTR_DEAD_ID 89
-	effect_amount SET_ATTRIBUTE FAKE_DEER ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE FAKE_DEER ATTR_STORAGE_VALUE {storage_value_fake_deer}
-	effect_amount SET_ATTRIBUTE FAKE_DEER ATTR_ATTACK 0
- 
-/* second wave */
-	effect_amount SET_ATTRIBUTE HUNTING_WOLF ATTR_DEAD_ID 202
-	effect_amount SET_ATTRIBUTE HUNTING_WOLF ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE HUNTING_WOLF ATTR_STORAGE_VALUE {storage_value_hunting_wolf}
-	effect_amount SET_ATTRIBUTE HUNTING_WOLF ATTR_ATTACK 0
- 
-/* exploders */
-/* splash radius for 8 players map */
- 
-	effect_amount SET_ATTRIBUTE DIRE_WOLF ATTR_HERO_STATUS 32 
-	effect_amount SET_ATTRIBUTE DIRE_WOLF ATTR_RESOURCE_CARRY 1
-	effect_amount SET_ATTRIBUTE DIRE_WOLF ATTR_STORAGE_VALUE {storage_value_dire_wolf}
-	effect_amount SET_ATTRIBUTE DIRE_WOLF ATTR_DEAD_ID 89
-	effect_amount SET_ATTRIBUTE DIRE_WOLF ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE DIRE_WOLF ATTR_ATTACK {attack_dire_wolf}
-	effect_amount SET_ATTRIBUTE DIRE_WOLF ATTR_BLAST_LEVEL 1
-	effect_amount SET_ATTRIBUTE DIRE_WOLF ATTR_BLAST_RADIUS {radius_dire_wolf}
+/* 30 min */
+	effect_amount SET_ATTRIBUTE COUNTDOWN01 ATTR_DEAD_ID 89
+	effect_amount SET_ATTRIBUTE COUNTDOWN01 ATTR_HITPOINTS 0
+	effect_amount SET_ATTRIBUTE COUNTDOWN01 ATTR_STORAGE_VALUE 900
+/* 35 min */
+	effect_amount SET_ATTRIBUTE COUNTDOWN02 ATTR_DEAD_ID 202
+	effect_amount SET_ATTRIBUTE COUNTDOWN02 ATTR_HITPOINTS 0
+	effect_amount SET_ATTRIBUTE COUNTDOWN02 ATTR_STORAGE_VALUE 1050
+/* 40 min */
+	effect_amount SET_ATTRIBUTE COUNTDOWN03 ATTR_DEAD_ID 707
+	effect_amount SET_ATTRIBUTE COUNTDOWN03 ATTR_HITPOINTS 0
+	effect_amount SET_ATTRIBUTE COUNTDOWN03 ATTR_STORAGE_VALUE 1200
+/* 45 min */
+	effect_amount SET_ATTRIBUTE COUNTDOWN04 ATTR_DEAD_ID 810
+	effect_amount SET_ATTRIBUTE COUNTDOWN04 ATTR_HITPOINTS 0
+	effect_amount SET_ATTRIBUTE COUNTDOWN04 ATTR_STORAGE_VALUE 1350
+/* 50 min */
+	effect_amount SET_ATTRIBUTE COUNTDOWN05 ATTR_DEAD_ID 544
+	effect_amount SET_ATTRIBUTE COUNTDOWN05 ATTR_HITPOINTS 0
+	effect_amount SET_ATTRIBUTE COUNTDOWN05 ATTR_STORAGE_VALUE 1500
+/* 55 min */
+	effect_amount SET_ATTRIBUTE COUNTDOWN06 ATTR_DEAD_ID 594
+	effect_amount SET_ATTRIBUTE COUNTDOWN06 ATTR_HITPOINTS 0
+	effect_amount SET_ATTRIBUTE COUNTDOWN06 ATTR_STORAGE_VALUE 1650
+/* 60 min */
+	effect_amount SET_ATTRIBUTE COUNTDOWN07 ATTR_DEAD_ID 705
+	effect_amount SET_ATTRIBUTE COUNTDOWN07 ATTR_HITPOINTS 0
+	effect_amount SET_ATTRIBUTE COUNTDOWN07 ATTR_STORAGE_VALUE 1800
 
-	effect_amount SET_ATTRIBUTE RABID_WOLF ATTR_HERO_STATUS 32 
-	effect_amount SET_ATTRIBUTE RABID_WOLF ATTR_RESOURCE_CARRY 1
-	effect_amount SET_ATTRIBUTE RABID_WOLF ATTR_STORAGE_VALUE {storage_value_rabid_wolf}
-	effect_amount SET_ATTRIBUTE RABID_WOLF ATTR_DEAD_ID 202
-	effect_amount SET_ATTRIBUTE RABID_WOLF ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE RABID_WOLF ATTR_ATTACK {attack_rabid_wolf}
-	effect_amount SET_ATTRIBUTE RABID_WOLF ATTR_BLAST_LEVEL 1
-	effect_amount SET_ATTRIBUTE RABID_WOLF ATTR_BLAST_RADIUS {radius_rabid_wolf}
- 
-'''.format(
-	storage_value_fake_deer=storage_value_fake_deer, 
-	storage_value_hunting_wolf=storage_value_hunting_wolf,
-	storage_value_dire_wolf=storage_value_dire_wolf,
-	storage_value_rabid_wolf=storage_value_rabid_wolf,
-	attack_dire_wolf=attack_dire_wolf,
-	attack_rabid_wolf=attack_rabid_wolf,
-	radius_dire_wolf=radius_dire_wolf,
-	radius_rabid_wolf=radius_rabid_wolf
-	)
+/* STORM-DAMAGE */
+
+/* 30min dire wolf; 1dmg */
+	effect_amount SET_ATTRIBUTE STORM01 ATTR_HERO_STATUS 32
+	effect_amount SET_ATTRIBUTE STORM01 ATTR_RESOURCE_CARRY 1
+	effect_amount SET_ATTRIBUTE STORM01 ATTR_STORAGE_VALUE 5
+	effect_amount SET_ATTRIBUTE STORM01 ATTR_DEAD_ID 89
+	effect_amount SET_ATTRIBUTE STORM01 ATTR_HITPOINTS 0
+	effect_amount SET_ATTRIBUTE STORM01 ATTR_ATTACK 1
+	effect_amount SET_ATTRIBUTE STORM01 ATTR_BLAST_LEVEL 1
+	effect_amount SET_ATTRIBUTE STORM01 ATTR_BLAST_RADIUS 12
+
+/* 35min rabid wolf; 1dmg */
+	effect_amount SET_ATTRIBUTE STORM02 ATTR_HERO_STATUS 32
+	effect_amount SET_ATTRIBUTE STORM02 ATTR_RESOURCE_CARRY 1
+	effect_amount SET_ATTRIBUTE STORM02 ATTR_STORAGE_VALUE 5
+	effect_amount SET_ATTRIBUTE STORM02 ATTR_DEAD_ID 202
+	effect_amount SET_ATTRIBUTE STORM02 ATTR_HITPOINTS 0
+	effect_amount SET_ATTRIBUTE STORM02 ATTR_ATTACK 1
+	effect_amount SET_ATTRIBUTE STORM02 ATTR_BLAST_LEVEL 1
+	effect_amount SET_ATTRIBUTE STORM02 ATTR_BLAST_RADIUS 24
+
+/* 40min ornlu the wolf; 2dmg */
+	effect_amount SET_ATTRIBUTE STORM03 ATTR_HERO_STATUS 32
+	effect_amount SET_ATTRIBUTE STORM03 ATTR_RESOURCE_CARRY 1
+	effect_amount SET_ATTRIBUTE STORM03 ATTR_STORAGE_VALUE 5
+	effect_amount SET_ATTRIBUTE STORM03 ATTR_DEAD_ID 707
+	effect_amount SET_ATTRIBUTE STORM03 ATTR_HITPOINTS 0
+	effect_amount SET_ATTRIBUTE STORM03 ATTR_ATTACK 2
+	effect_amount SET_ATTRIBUTE STORM03 ATTR_BLAST_LEVEL 1
+	effect_amount SET_ATTRIBUTE STORM03 ATTR_BLAST_RADIUS 34
+
+/* 45min iron boar; 2dmg */
+	effect_amount SET_ATTRIBUTE STORM04 ATTR_HERO_STATUS 32
+	effect_amount SET_ATTRIBUTE STORM04 ATTR_RESOURCE_CARRY 1
+	effect_amount SET_ATTRIBUTE STORM04 ATTR_STORAGE_VALUE 5
+	effect_amount SET_ATTRIBUTE STORM04 ATTR_DEAD_ID 810
+	effect_amount SET_ATTRIBUTE STORM04 ATTR_HITPOINTS 0
+	effect_amount SET_ATTRIBUTE STORM04 ATTR_ATTACK 2
+	effect_amount SET_ATTRIBUTE STORM04 ATTR_BLAST_LEVEL 1
+	effect_amount SET_ATTRIBUTE STORM04 ATTR_BLAST_RADIUS 39
+
+/* 50min flying dog - saboteur; 20-3-20 dmg (building, mellee, walls) */
+
+	effect_amount SET_ATTRIBUTE STORM05 ATTR_STORAGE_VALUE 3
+	effect_amount SET_ATTRIBUTE STORM05 ATTR_DEAD_ID 706
+	effect_amount SET_ATTRIBUTE STORM05 ATTR_HITPOINTS 0
+
+/* 55min llama - sheriff; 30-3 dmg (building, mellee) */
+
+	effect_amount SET_ATTRIBUTE STORM06 ATTR_STORAGE_VALUE 3
+	effect_amount SET_ATTRIBUTE STORM06 ATTR_DEAD_ID 164
+	effect_amount SET_ATTRIBUTE STORM06 ATTR_HITPOINTS 0
+
+/* 60min cow - siegfried; 40-4 dmg (building, mellee) */
+
+	effect_amount SET_ATTRIBUTE STORM07 ATTR_STORAGE_VALUE 3
+	effect_amount SET_ATTRIBUTE STORM07 ATTR_DEAD_ID 170
+	effect_amount SET_ATTRIBUTE STORM07 ATTR_HITPOINTS 0
+
+'''
 
 PATCH_OBJECTS_GENERATION = '''
-
-/* timers */
-
-create_object FAKE_DEER
-{
-    number_of_objects 999
-    terrain_to_place_on %TIMER_TERRAIN%
-    set_gaia_object_only
-    temp_min_distance_group_placement 4
-}
-
-create_object HUNTING_WOLF
-{
-    number_of_objects 999
-    terrain_to_place_on %TIMER_TERRAIN%
-    set_gaia_object_only
-    temp_min_distance_group_placement 4
-}
 
 /* Regicide ingredients */
 
@@ -254,7 +270,7 @@ create_object KING
     max_distance_to_players 5
 }
 
-'''.replace('%TIMER_TERRAIN%', timer_terrain)
+'''
 
 rmsfiles = []
 for filename in os.listdir('.'):
@@ -308,7 +324,7 @@ for rmsfile in rmsfiles:
 			if '<OBJECTS_GENERATION>' in line:
 				endOfStart = inStart
 				endOfPlayerSetup = inPlayerSetup
-			
+
 			if endOfStart:
 				print(PATCH_START, file=outscx)
 				print(PATCH_START, file=outrms)
@@ -328,8 +344,8 @@ for rmsfile in rmsfiles:
 					print(PATCH_OBJECTS_GENERATION, file=outrms)
 				inObjectsGeneration = False
 				endOfObjectsGeneration = False
-			
-			
+
+
 			if '<PLAYER_SETUP>' in line:
 				scxPart = False
 				rmsPart = True
@@ -353,16 +369,16 @@ for rmsfile in rmsfiles:
 				scxPart = False
 				rmsPart = True
 				inObjectsGeneration = True
-			
+
 			if scxPart:
 				print(line, file=outscx, end='')
 			if rmsPart:
 				print(line, file=outrms, end='')
-				
+
 		endOfStart = inStart
 		endOfPlayerSetup = inPlayerSetup
 		endOfObjectsGeneration = inObjectsGeneration
-		
+
 		if endOfStart:
 			print(PATCH_START, file=outscx)
 			print(PATCH_START, file=outrms)
