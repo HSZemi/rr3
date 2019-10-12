@@ -27,6 +27,15 @@ radius_rabid_wolf = radius_second_wave_tiles
 PATCH_HEADER = '''/* ** REGICIDE RUMBLE 3 ** */
 /* an event by T90Official */
 /* Map: {mapname} ({variant}) */
+/* FEATURES */
+/* - Battle Royale */
+/* - Custom Regicide with Treason instead of Spies */
+/* - Relic victory disabled */
+/* - Kings drop 1 relic on death */
+/* - Bombard Towers disabled */
+/* - Masonry, Architecture and Hoardings disabled */
+/* - Byzantine HP bonus disabled */
+/* - Defensive structures (Castles, Towers, Walls and Gates) -30% HP */
 
 '''
 
@@ -43,13 +52,102 @@ PATCH_START = '''
 /* disable hunters */
 #const VILLAGER_HUNTER_M 122
 #const VILLAGER_HUNTER_F 216
+
+/* relic spawning */
+#const PRIEST_WITH_RELIC 1025
+
+/* Disable Bombard Towers */
+#const BBT_TECH 64
+#const FREE_BBT_TECH 444
+
+/* Disable Masonry, Architecture, Hoardings */
+#const MASONRY_TECH 50
+#const ARCHITECTURE_TECH 51
+#const HOARDINGS_TECH 379
+
+/* Disable Byzantine building HP bonus */
+#const BYZ_10_HP_TECH 283
+#const BYZ_20_HP_TECH 417
+#const BYZ_30_HP_TECH 418
+#const BYZ_40_HP_TECH 419
+
+/* Nerf defensive structures -30% HP */
+#const GATE_A 64
+#const GATE_B 88
+#const GATE_C 659
+#const GATE_D 667
+
+#const FORTIFIED_GATE_A 63
+#const FORTIFIED_GATE_B 85
+#const FORTIFIED_GATE_C 660
+#const FORTIFIED_GATE_D 668
+
+#const PALISADE_GATE_A 790
+#const PALISADE_GATE_B 794
+#const PALISADE_GATE_C 798
+#const PALISADE_GATE_D 802
+#const PALISADE_GATE_E 789
+#const PALISADE_GATE_F 793
+#const PALISADE_GATE_G 797
+#const PALISADE_GATE_H 801
+
 '''
 
 PATCH_PLAYER_SETUP = '''
 /* disable hunter workrate */
+
 effect_amount SET_ATTRIBUTE VILLAGER_HUNTER_M ATTR_WORK_RATE 0
 effect_amount SET_ATTRIBUTE VILLAGER_HUNTER_F ATTR_WORK_RATE 0
- 
+
+/* king drops relic */
+
+effect_amount SET_ATTRIBUTE KING ATTR_DEAD_ID 1025
+effect_amount SET_ATTRIBUTE PRIEST_WITH_RELIC ATTR_HITPOINTS 0
+
+/* disable bombard towers */
+
+effect_amount DISABLE_TECH BBT_TECH ATTR_DISABLE 64
+effect_amount DISABLE_TECH FREE_BBT_TECH ATTR_DISABLE 444
+
+/* Disable Masonry, Architecture, Hoardings */
+
+effect_amount DISABLE_TECH MASONRY_TECH ATTR_DISABLE 50
+effect_amount DISABLE_TECH ARCHITECTURE_TECH ATTR_DISABLE 51
+effect_amount DISABLE_TECH HOARDINGS_TECH ATTR_DISABLE 379
+
+/* Disable Byzantine building HP bonus */
+
+effect_amount DISABLE_TECH BYZ_10_HP_TECH ATTR_DISABLE 283
+effect_amount DISABLE_TECH BYZ_20_HP_TECH ATTR_DISABLE 417
+effect_amount DISABLE_TECH BYZ_30_HP_TECH ATTR_DISABLE 418
+effect_amount DISABLE_TECH BYZ_40_HP_TECH ATTR_DISABLE 419
+
+/* Nerf defensive structures -30% HP */
+
+effect_percent MUL_ATTRIBUTE CASTLE ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE WATCH_TOWER ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE GUARD_TOWER ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE KEEP ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE PALISADE_WALL ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE WALL ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE FORTIFIED_WALL ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE GATE_A 64 ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE GATE_B 88 ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE GATE_C 659 ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE GATE_D 667 ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE FORTIFIED_GATE_A ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE FORTIFIED_GATE_B ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE FORTIFIED_GATE_C ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE FORTIFIED_GATE_D ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE PALISADE_GATE_A ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE PALISADE_GATE_B ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE PALISADE_GATE_C ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE PALISADE_GATE_D ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE PALISADE_GATE_E ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE PALISADE_GATE_F ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE PALISADE_GATE_G ATTR_HITPOINTS 70
+effect_percent MUL_ATTRIBUTE PALISADE_GATE_H ATTR_HITPOINTS 70
+
 /* regicide stuff */
 
 effect_amount MOD_RESOURCE AMOUNT_STARTING_WOOD ATTR_ADD 300
@@ -183,6 +281,7 @@ for rmsfile in rmsfiles:
 		print(PATCH_HEADER.format(mapname=foldername, variant='scenario generation part for ZR map'), file=outscx)
 		print(PATCH_HEADER.format(mapname=foldername, variant='rms part for ZR map'), file=outrms)
 		for line in inrms:
+			line = line.replace(' RELIC', ' PRIEST_WITH_RELIC')
 			if '<PLAYER_SETUP>' in line:
 				endOfStart = inStart
 				endOfObjectsGeneration = inObjectsGeneration
