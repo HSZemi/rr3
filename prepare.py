@@ -3,6 +3,21 @@
 import os
 import math
 
+
+waves = [
+	{'minutes': 90, 'radius':20, 'attack': 1},
+	{'minutes': 120, 'radius':40, 'attack': 1},
+	{'minutes': 150, 'radius':60, 'attack': 1},
+	{'minutes': 180, 'radius':80, 'attack': 1},
+	{'minutes': 210, 'radius':100, 'attack': 1},
+	{'minutes': 240, 'radius':120, 'attack': 1},
+]
+
+food_per_minute = 30 # .5 food per second
+for wave in waves:
+	wave['food'] = food_per_minute * wave['minutes']
+
+
 PATCH_HEADER = '''/* ** REGICIDE RUMBLE 3 ** */
 /* an event by T90Official */
 /* Map: {mapname} ({variant}) */
@@ -21,13 +36,19 @@ PATCH_HEADER = '''/* ** REGICIDE RUMBLE 3 ** */
 PATCH_START = '''
 /* timers */
 
+#const INIT_COUNTDOWN01 1056 /* falcon */
+#const INIT_COUNTDOWN02 1028 /* stork */
+#const INIT_COUNTDOWN03 303 /* seagulls */
+#const INIT_COUNTDOWN04 816 /* macaw */
+#const INIT_COUNTDOWN05 860 /* monkey */
+#const INIT_COUNTDOWN06 862 /* stormydog */
+
 #const COUNTDOWN01 486 /* bear */
 #const COUNTDOWN02 812 /* jag */
 #const COUNTDOWN03 1029 /* lion */
 #const COUNTDOWN04 1031 /* croc */
 #const COUNTDOWN05 1135 /* komodo */
 #const COUNTDOWN06 1137 /* tiger */
-#const COUNTDOWN07 860 /* monkey */
 
 /* exploders */
 #const STORM01 89 /* direwolf */
@@ -35,8 +56,7 @@ PATCH_START = '''
 #const STORM03 707 /* ornlu */
 #const STORM04 810 /* ironboar */
 #const STORM05 544 /* flyingdog */
-#const STORM06 594 /* sheep */
-#const STORM07 705 /* cow */
+#const STORM06 333 /* fakedeer */
 
 /* disable gathering from stormy animals */
 #const VILLAGER_BASE_M 83
@@ -148,97 +168,106 @@ guard_state KING AMOUNT_GOLD 0 1
 /* remove spies, add treason */
 effect_amount GAIA_SET_PLAYER_DATA DATA_MODE_FLAGS ATTR_SET 3
 
-
-/* 30 min */
+/* {waves[0][minutes]} min */
+	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN01 ATTR_DEAD_ID 486
+	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN01 ATTR_HITPOINTS 0
 	effect_amount SET_ATTRIBUTE COUNTDOWN01 ATTR_DEAD_ID 89
 	effect_amount SET_ATTRIBUTE COUNTDOWN01 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN01 ATTR_STORAGE_VALUE 900
-/* 35 min */
+	effect_amount SET_ATTRIBUTE COUNTDOWN01 ATTR_STORAGE_VALUE {waves[0][food]}
+/* {waves[1][minutes]} min */
+	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN02 ATTR_DEAD_ID 812
+	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN02 ATTR_HITPOINTS 0
 	effect_amount SET_ATTRIBUTE COUNTDOWN02 ATTR_DEAD_ID 202
 	effect_amount SET_ATTRIBUTE COUNTDOWN02 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN02 ATTR_STORAGE_VALUE 1050
-/* 40 min */
+	effect_amount SET_ATTRIBUTE COUNTDOWN02 ATTR_STORAGE_VALUE {waves[1][food]}
+/* {waves[2][minutes]} min */
+	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN03 ATTR_DEAD_ID 1029
+	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN03 ATTR_HITPOINTS 0
 	effect_amount SET_ATTRIBUTE COUNTDOWN03 ATTR_DEAD_ID 707
 	effect_amount SET_ATTRIBUTE COUNTDOWN03 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN03 ATTR_STORAGE_VALUE 1200
-/* 45 min */
+	effect_amount SET_ATTRIBUTE COUNTDOWN03 ATTR_STORAGE_VALUE {waves[2][food]}
+/* {waves[3][minutes]} min */
+	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN04 ATTR_DEAD_ID 1031
+	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN04 ATTR_HITPOINTS 0
 	effect_amount SET_ATTRIBUTE COUNTDOWN04 ATTR_DEAD_ID 810
 	effect_amount SET_ATTRIBUTE COUNTDOWN04 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN04 ATTR_STORAGE_VALUE 1350
-/* 50 min */
+	effect_amount SET_ATTRIBUTE COUNTDOWN04 ATTR_STORAGE_VALUE {waves[3][food]}
+/* {waves[4][minutes]} min */
+	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN05 ATTR_DEAD_ID 1135
+	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN05 ATTR_HITPOINTS 0
 	effect_amount SET_ATTRIBUTE COUNTDOWN05 ATTR_DEAD_ID 544
 	effect_amount SET_ATTRIBUTE COUNTDOWN05 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN05 ATTR_STORAGE_VALUE 1500
-/* 55 min */
-	effect_amount SET_ATTRIBUTE COUNTDOWN06 ATTR_DEAD_ID 594
+	effect_amount SET_ATTRIBUTE COUNTDOWN05 ATTR_STORAGE_VALUE {waves[4][food]}
+/* {waves[5][minutes]} min */
+	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN06 ATTR_DEAD_ID 1137
+	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN06 ATTR_HITPOINTS 0
+	effect_amount SET_ATTRIBUTE COUNTDOWN06 ATTR_DEAD_ID 333
 	effect_amount SET_ATTRIBUTE COUNTDOWN06 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN06 ATTR_STORAGE_VALUE 1650
-/* 60 min */
-	effect_amount SET_ATTRIBUTE COUNTDOWN07 ATTR_DEAD_ID 705
-	effect_amount SET_ATTRIBUTE COUNTDOWN07 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN07 ATTR_STORAGE_VALUE 1800
+	effect_amount SET_ATTRIBUTE COUNTDOWN06 ATTR_STORAGE_VALUE {waves[5][food]}
 
 /* STORM-DAMAGE */
 
-/* 30min dire wolf; 1dmg */
+/* {waves[0][minutes]} min dire wolf; {waves[0][attack]} dmg */
 	effect_amount SET_ATTRIBUTE STORM01 ATTR_HERO_STATUS 32
 	effect_amount SET_ATTRIBUTE STORM01 ATTR_RESOURCE_CARRY 1
 	effect_amount SET_ATTRIBUTE STORM01 ATTR_STORAGE_VALUE 5
 	effect_amount SET_ATTRIBUTE STORM01 ATTR_DEAD_ID 89
 	effect_amount SET_ATTRIBUTE STORM01 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE STORM01 ATTR_ATTACK 1
+	effect_amount SET_ATTRIBUTE STORM01 ATTR_ATTACK {waves[0][attack]}
 	effect_amount SET_ATTRIBUTE STORM01 ATTR_BLAST_LEVEL 1
-	effect_amount SET_ATTRIBUTE STORM01 ATTR_BLAST_RADIUS 12
+	effect_amount SET_ATTRIBUTE STORM01 ATTR_BLAST_RADIUS {waves[0][radius]}
 
-/* 35min rabid wolf; 1dmg */
+/* {waves[1][minutes]} min rabid wolf; {waves[1][attack]} dmg */
 	effect_amount SET_ATTRIBUTE STORM02 ATTR_HERO_STATUS 32
 	effect_amount SET_ATTRIBUTE STORM02 ATTR_RESOURCE_CARRY 1
 	effect_amount SET_ATTRIBUTE STORM02 ATTR_STORAGE_VALUE 5
 	effect_amount SET_ATTRIBUTE STORM02 ATTR_DEAD_ID 202
 	effect_amount SET_ATTRIBUTE STORM02 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE STORM02 ATTR_ATTACK 1
+	effect_amount SET_ATTRIBUTE STORM02 ATTR_ATTACK {waves[1][attack]}
 	effect_amount SET_ATTRIBUTE STORM02 ATTR_BLAST_LEVEL 1
-	effect_amount SET_ATTRIBUTE STORM02 ATTR_BLAST_RADIUS 24
+	effect_amount SET_ATTRIBUTE STORM02 ATTR_BLAST_RADIUS {waves[1][radius]}
 
-/* 40min ornlu the wolf; 2dmg */
+/* {waves[2][minutes]} min ornlu the wolf; {waves[2][attack]} dmg */
 	effect_amount SET_ATTRIBUTE STORM03 ATTR_HERO_STATUS 32
 	effect_amount SET_ATTRIBUTE STORM03 ATTR_RESOURCE_CARRY 1
 	effect_amount SET_ATTRIBUTE STORM03 ATTR_STORAGE_VALUE 5
 	effect_amount SET_ATTRIBUTE STORM03 ATTR_DEAD_ID 707
 	effect_amount SET_ATTRIBUTE STORM03 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE STORM03 ATTR_ATTACK 2
+	effect_amount SET_ATTRIBUTE STORM03 ATTR_ATTACK {waves[2][attack]}
 	effect_amount SET_ATTRIBUTE STORM03 ATTR_BLAST_LEVEL 1
-	effect_amount SET_ATTRIBUTE STORM03 ATTR_BLAST_RADIUS 34
+	effect_amount SET_ATTRIBUTE STORM03 ATTR_BLAST_RADIUS {waves[2][radius]}
 
-/* 45min iron boar; 2dmg */
+/* {waves[3][minutes]} min iron boar; {waves[3][attack]} dmg */
 	effect_amount SET_ATTRIBUTE STORM04 ATTR_HERO_STATUS 32
 	effect_amount SET_ATTRIBUTE STORM04 ATTR_RESOURCE_CARRY 1
 	effect_amount SET_ATTRIBUTE STORM04 ATTR_STORAGE_VALUE 5
 	effect_amount SET_ATTRIBUTE STORM04 ATTR_DEAD_ID 810
 	effect_amount SET_ATTRIBUTE STORM04 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE STORM04 ATTR_ATTACK 2
+	effect_amount SET_ATTRIBUTE STORM04 ATTR_ATTACK {waves[3][attack]}
 	effect_amount SET_ATTRIBUTE STORM04 ATTR_BLAST_LEVEL 1
-	effect_amount SET_ATTRIBUTE STORM04 ATTR_BLAST_RADIUS 39
+	effect_amount SET_ATTRIBUTE STORM04 ATTR_BLAST_RADIUS {waves[3][radius]}
 
-/* 50min flying dog - saboteur; 20-3-20 dmg (building, mellee, walls) */
-
-	effect_amount SET_ATTRIBUTE STORM05 ATTR_STORAGE_VALUE 3
-	effect_amount SET_ATTRIBUTE STORM05 ATTR_DEAD_ID 706
+/* {waves[4][minutes]} min flying dog; {waves[4][attack]} dmg */
+	effect_amount SET_ATTRIBUTE STORM04 ATTR_HERO_STATUS 32
+	effect_amount SET_ATTRIBUTE STORM04 ATTR_RESOURCE_CARRY 1
+	effect_amount SET_ATTRIBUTE STORM05 ATTR_STORAGE_VALUE 5
+	effect_amount SET_ATTRIBUTE STORM05 ATTR_DEAD_ID 544
 	effect_amount SET_ATTRIBUTE STORM05 ATTR_HITPOINTS 0
+	effect_amount SET_ATTRIBUTE STORM05 ATTR_ATTACK {waves[4][attack]}
+	effect_amount SET_ATTRIBUTE STORM05 ATTR_BLAST_LEVEL 1
+	effect_amount SET_ATTRIBUTE STORM05 ATTR_BLAST_RADIUS {waves[4][radius]}
 
-/* 55min llama - sheriff; 30-3 dmg (building, mellee) */
-
+/* {waves[5][minutes]} min fakedeer; {waves[5][attack]} dmg */
+	effect_amount SET_ATTRIBUTE STORM04 ATTR_HERO_STATUS 32
+	effect_amount SET_ATTRIBUTE STORM04 ATTR_RESOURCE_CARRY 1
 	effect_amount SET_ATTRIBUTE STORM06 ATTR_STORAGE_VALUE 3
-	effect_amount SET_ATTRIBUTE STORM06 ATTR_DEAD_ID 164
+	effect_amount SET_ATTRIBUTE STORM06 ATTR_DEAD_ID 333
 	effect_amount SET_ATTRIBUTE STORM06 ATTR_HITPOINTS 0
+	effect_amount SET_ATTRIBUTE STORM06 ATTR_ATTACK {waves[5][attack]}
+	effect_amount SET_ATTRIBUTE STORM06 ATTR_BLAST_LEVEL 1
+	effect_amount SET_ATTRIBUTE STORM06 ATTR_BLAST_RADIUS {waves[5][radius]}
 
-/* 60min cow - siegfried; 40-4 dmg (building, mellee) */
-
-	effect_amount SET_ATTRIBUTE STORM07 ATTR_STORAGE_VALUE 3
-	effect_amount SET_ATTRIBUTE STORM07 ATTR_DEAD_ID 170
-	effect_amount SET_ATTRIBUTE STORM07 ATTR_HITPOINTS 0
-
-'''
+'''.format(waves=waves)
 
 PATCH_OBJECTS_GENERATION = '''
 
@@ -287,6 +316,8 @@ for rmsfile in rmsfiles:
 	endOfPlayerSetup = False
 	inObjectsGeneration = False
 	endOfObjectsGeneration = False
+	create_tc_capture = []
+	tc_capture_active = False
 	foldername = rmsfile[:-4].replace('ZR@','')
 	print('Creating folder ' + foldername)
 	os.makedirs(os.path.join('output', foldername), exist_ok=True)
@@ -344,7 +375,13 @@ for rmsfile in rmsfiles:
 					print(PATCH_OBJECTS_GENERATION, file=outrms)
 				inObjectsGeneration = False
 				endOfObjectsGeneration = False
-
+			if inObjectsGeneration:
+				if 'create_object TOWN_CENTER' in line:
+					tc_capture_active = True
+				if tc_capture_active:
+					create_tc_capture.append(line)
+					if '}' in line:
+						tc_capture_active = False
 
 			if '<PLAYER_SETUP>' in line:
 				scxPart = False
@@ -354,17 +391,17 @@ for rmsfile in rmsfiles:
 				scxPart = True
 				rmsPart = False
 			if '<ELEVATION_GENERATION>' in line:
-				scxPart = False
-				rmsPart = True
+				scxPart = True
+				rmsPart = False
 			if '<CLIFF_GENERATION>' in line:
-				scxPart = False
-				rmsPart = True
+				scxPart = True
+				rmsPart = False
 			if '<TERRAIN_GENERATION>' in line:
-				scxPart = False
-				rmsPart = True
+				scxPart = True
+				rmsPart = False
 			if '<CONNECTION_GENERATION>' in line:
-				scxPart = False
-				rmsPart = True
+				scxPart = True
+				rmsPart = False
 			if '<OBJECTS_GENERATION>' in line:
 				scxPart = False
 				rmsPart = True
@@ -398,3 +435,6 @@ for rmsfile in rmsfiles:
 				print(PATCH_OBJECTS_GENERATION, file=outrms)
 			inObjectsGeneration = False
 			endOfObjectsGeneration = False
+		
+		print('<OBJECTS_GENERATION>\n', file=outscx)
+		print(''.join(create_tc_capture), file=outscx)

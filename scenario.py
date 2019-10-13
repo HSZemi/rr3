@@ -20,37 +20,40 @@ height = scenario.tiles.height
 
 rock = 623
 countdowns = [
-	486, # /* bear */
-	#812, # /* jag */
-	#1029, # /* lion */
-	#1031, # /* croc */
-	#1135, # /* komodo */
-	#1137, # /* tiger */
-	#860, # /* monkey */
+	1056, #/* falcon */
+	1028, #/* stork */
+	303,  #/* vulture */
+	816,  #/* macaw */
+	860,  #/* monkey */
+	862   #/* stormydog */
 	]
 
+# southwest
 x = 0
 for y in range(height):
 	for unit in countdowns:
 		scenario.units.new(x=x+0.5,y=y+0.5, owner=0, type=unit)
 for y in range(1,height-1):
 	scenario.units.new(x=x+1.5,y=y+0.5, owner=0, type=rock)
-	
-x = width-2
+
+# northeast
+x = width-1
 for y in range(height):
 	for unit in countdowns:
 		scenario.units.new(x=x+0.5,y=y+0.5, owner=0, type=unit)
 for y in range(1,height-1):
 	scenario.units.new(x=x-0.5,y=y+0.5, owner=0, type=rock)
-	
+
+# northwest
 y = 0
 for x in range(1,width-1):
 	for unit in countdowns:
 		scenario.units.new(x=x+0.5,y=y+0.5, owner=0, type=unit)
 for x in range(2,width-2):
 	scenario.units.new(x=x+0.5,y=y+1.5, owner=0, type=rock)
-	
-y = height-2
+
+# southeast
+y = height-1
 for x in range(1,width-1):
 	for unit in countdowns:
 		scenario.units.new(x=x+0.5,y=y+0.5, owner=0, type=unit)
