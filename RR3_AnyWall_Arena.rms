@@ -13,13 +13,14 @@ and my Updated New RMS Guide:
 http://aok.heavengames.com/blacksmith/showfile.php?fileid=12178
 */
 
+/* 
 start_random
 	percent_chance 20
 		#define ASIAN_MAP
 	percent_chance 20
 		#define ALPINE_MAP
 end_random
-
+ */
 
 if DLC_MANGROVESHALLOW
 	if UP_EXTENSION #define WK
