@@ -8,12 +8,9 @@ waves = [
 	{'minutes': 90, 'radius':20, 'attack': 1},
 	{'minutes': 120, 'radius':40, 'attack': 1},
 	{'minutes': 150, 'radius':60, 'attack': 1},
-	{'minutes': 180, 'radius':80, 'attack': 1},
-	{'minutes': 210, 'radius':100, 'attack': 1},
-	{'minutes': 240, 'radius':120, 'attack': 1},
 ]
 
-food_per_minute = 30 # .5 food per second
+food_per_minute = 15 # .25 food per second
 for wave in waves:
 	wave['food'] = food_per_minute * wave['minutes']
 
@@ -35,32 +32,18 @@ PATCH_HEADER = '''/* ** REGICIDE RUMBLE 3 ** */
 
 PATCH_START = '''
 /* timers */
+#const INIT_COUNTDOWN01 1137 /* tiger */
+#const INIT_COUNTDOWN02 860 /* monkey */
+#const INIT_COUNTDOWN03 1135 /* komodo */
 
-#const INIT_COUNTDOWN01 1056 /* falcon */
-#const INIT_COUNTDOWN02 1028 /* stork */
-#const INIT_COUNTDOWN03 303 /* seagulls */
-#const INIT_COUNTDOWN04 816 /* macaw */
-#const INIT_COUNTDOWN05 860 /* monkey */
-#const INIT_COUNTDOWN06 862 /* stormydog */
-
-#const COUNTDOWN01 486 /* bear */
-#const COUNTDOWN02 812 /* jag */
-#const COUNTDOWN03 1029 /* lion */
-#const COUNTDOWN04 1031 /* croc */
-#const COUNTDOWN05 1135 /* komodo */
-#const COUNTDOWN06 1137 /* tiger */
+#const COUNTDOWN01 303 /* seagulls */  /* 0.25 food per sec */    
+#const COUNTDOWN02 333 /* fakedeer */  /* 0.25 food per sec */        
+#const COUNTDOWN03 862 /* stormydog */ /* 0.25 food per sec */
 
 /* exploders */
-#const STORM01 89 /* direwolf */
-#const STORM02 202 /* rabidwolf */
-#const STORM03 707 /* ornlu */
-#const STORM04 810 /* ironboar */
-#const STORM05 544 /* flyingdog */
-#const STORM06 333 /* fakedeer */
-
-/* disable gathering from stormy animals */
-#const VILLAGER_BASE_M 83
-#const VILLAGER_BASE_F 293
+#const STORM01 816    /* macaw */  /* 0.25 food per sec */    
+#const STORM02 1028   /* stork */  /* 0.25 food per sec */    
+#const STORM03 1056   /* falcon */ /* 0.25 food per sec */
 
 /* relic spawning */
 #const PRIEST_WITH_RELIC 1025
@@ -103,11 +86,6 @@ PATCH_START = '''
 '''
 
 PATCH_PLAYER_SETUP = '''
-/* disable gathering from stormy animals */
-
-effect_amount SET_ATTRIBUTE VILLAGER_BASE_M ATTR_WORK_RATE 0
-effect_amount SET_ATTRIBUTE VILLAGER_BASE_F ATTR_WORK_RATE 0
-
 /* king drops relic */
 
 effect_amount SET_ATTRIBUTE KING ATTR_DEAD_ID 1025
@@ -169,103 +147,55 @@ guard_state KING AMOUNT_GOLD 0 1
 effect_amount GAIA_SET_PLAYER_DATA DATA_MODE_FLAGS ATTR_SET 3
 
 /* {waves[0][minutes]} min */
-	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN01 ATTR_DEAD_ID 486
+	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN01 ATTR_DEAD_ID 303
 	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN01 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN01 ATTR_DEAD_ID 89
+	effect_amount SET_ATTRIBUTE COUNTDOWN01 ATTR_DEAD_ID 816
 	effect_amount SET_ATTRIBUTE COUNTDOWN01 ATTR_HITPOINTS 0
 	effect_amount SET_ATTRIBUTE COUNTDOWN01 ATTR_STORAGE_VALUE {waves[0][food]}
 /* {waves[1][minutes]} min */
-	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN02 ATTR_DEAD_ID 812
+	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN02 ATTR_DEAD_ID 333
 	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN02 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN02 ATTR_DEAD_ID 202
+	effect_amount SET_ATTRIBUTE COUNTDOWN02 ATTR_DEAD_ID 1028
 	effect_amount SET_ATTRIBUTE COUNTDOWN02 ATTR_HITPOINTS 0
 	effect_amount SET_ATTRIBUTE COUNTDOWN02 ATTR_STORAGE_VALUE {waves[1][food]}
 /* {waves[2][minutes]} min */
-	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN03 ATTR_DEAD_ID 1029
+	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN03 ATTR_DEAD_ID 862
 	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN03 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN03 ATTR_DEAD_ID 707
+	effect_amount SET_ATTRIBUTE COUNTDOWN03 ATTR_DEAD_ID 1056
 	effect_amount SET_ATTRIBUTE COUNTDOWN03 ATTR_HITPOINTS 0
 	effect_amount SET_ATTRIBUTE COUNTDOWN03 ATTR_STORAGE_VALUE {waves[2][food]}
-/* {waves[3][minutes]} min */
-	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN04 ATTR_DEAD_ID 1031
-	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN04 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN04 ATTR_DEAD_ID 810
-	effect_amount SET_ATTRIBUTE COUNTDOWN04 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN04 ATTR_STORAGE_VALUE {waves[3][food]}
-/* {waves[4][minutes]} min */
-	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN05 ATTR_DEAD_ID 1135
-	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN05 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN05 ATTR_DEAD_ID 544
-	effect_amount SET_ATTRIBUTE COUNTDOWN05 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN05 ATTR_STORAGE_VALUE {waves[4][food]}
-/* {waves[5][minutes]} min */
-	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN06 ATTR_DEAD_ID 1137
-	effect_amount SET_ATTRIBUTE INIT_COUNTDOWN06 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN06 ATTR_DEAD_ID 333
-	effect_amount SET_ATTRIBUTE COUNTDOWN06 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE COUNTDOWN06 ATTR_STORAGE_VALUE {waves[5][food]}
 
 /* STORM-DAMAGE */
 
-/* {waves[0][minutes]} min dire wolf; {waves[0][attack]} dmg */
+/* {waves[0][minutes]} min {waves[0][attack]} dmg */
 	effect_amount SET_ATTRIBUTE STORM01 ATTR_HERO_STATUS 32
 	effect_amount SET_ATTRIBUTE STORM01 ATTR_RESOURCE_CARRY 1
 	effect_amount SET_ATTRIBUTE STORM01 ATTR_STORAGE_VALUE 5
-	effect_amount SET_ATTRIBUTE STORM01 ATTR_DEAD_ID 89
+	effect_amount SET_ATTRIBUTE STORM01 ATTR_DEAD_ID 816
 	effect_amount SET_ATTRIBUTE STORM01 ATTR_HITPOINTS 0
 	effect_amount SET_ATTRIBUTE STORM01 ATTR_ATTACK {waves[0][attack]}
 	effect_amount SET_ATTRIBUTE STORM01 ATTR_BLAST_LEVEL 1
 	effect_amount SET_ATTRIBUTE STORM01 ATTR_BLAST_RADIUS {waves[0][radius]}
 
-/* {waves[1][minutes]} min rabid wolf; {waves[1][attack]} dmg */
+/* {waves[1][minutes]} min {waves[1][attack]} dmg */
 	effect_amount SET_ATTRIBUTE STORM02 ATTR_HERO_STATUS 32
 	effect_amount SET_ATTRIBUTE STORM02 ATTR_RESOURCE_CARRY 1
 	effect_amount SET_ATTRIBUTE STORM02 ATTR_STORAGE_VALUE 5
-	effect_amount SET_ATTRIBUTE STORM02 ATTR_DEAD_ID 202
+	effect_amount SET_ATTRIBUTE STORM02 ATTR_DEAD_ID 333
 	effect_amount SET_ATTRIBUTE STORM02 ATTR_HITPOINTS 0
 	effect_amount SET_ATTRIBUTE STORM02 ATTR_ATTACK {waves[1][attack]}
 	effect_amount SET_ATTRIBUTE STORM02 ATTR_BLAST_LEVEL 1
 	effect_amount SET_ATTRIBUTE STORM02 ATTR_BLAST_RADIUS {waves[1][radius]}
 
-/* {waves[2][minutes]} min ornlu the wolf; {waves[2][attack]} dmg */
+/* {waves[2][minutes]} min {waves[2][attack]} dmg */
 	effect_amount SET_ATTRIBUTE STORM03 ATTR_HERO_STATUS 32
 	effect_amount SET_ATTRIBUTE STORM03 ATTR_RESOURCE_CARRY 1
 	effect_amount SET_ATTRIBUTE STORM03 ATTR_STORAGE_VALUE 5
-	effect_amount SET_ATTRIBUTE STORM03 ATTR_DEAD_ID 707
+	effect_amount SET_ATTRIBUTE STORM03 ATTR_DEAD_ID 862
 	effect_amount SET_ATTRIBUTE STORM03 ATTR_HITPOINTS 0
 	effect_amount SET_ATTRIBUTE STORM03 ATTR_ATTACK {waves[2][attack]}
 	effect_amount SET_ATTRIBUTE STORM03 ATTR_BLAST_LEVEL 1
 	effect_amount SET_ATTRIBUTE STORM03 ATTR_BLAST_RADIUS {waves[2][radius]}
-
-/* {waves[3][minutes]} min iron boar; {waves[3][attack]} dmg */
-	effect_amount SET_ATTRIBUTE STORM04 ATTR_HERO_STATUS 32
-	effect_amount SET_ATTRIBUTE STORM04 ATTR_RESOURCE_CARRY 1
-	effect_amount SET_ATTRIBUTE STORM04 ATTR_STORAGE_VALUE 5
-	effect_amount SET_ATTRIBUTE STORM04 ATTR_DEAD_ID 810
-	effect_amount SET_ATTRIBUTE STORM04 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE STORM04 ATTR_ATTACK {waves[3][attack]}
-	effect_amount SET_ATTRIBUTE STORM04 ATTR_BLAST_LEVEL 1
-	effect_amount SET_ATTRIBUTE STORM04 ATTR_BLAST_RADIUS {waves[3][radius]}
-
-/* {waves[4][minutes]} min flying dog; {waves[4][attack]} dmg */
-	effect_amount SET_ATTRIBUTE STORM04 ATTR_HERO_STATUS 32
-	effect_amount SET_ATTRIBUTE STORM04 ATTR_RESOURCE_CARRY 1
-	effect_amount SET_ATTRIBUTE STORM05 ATTR_STORAGE_VALUE 5
-	effect_amount SET_ATTRIBUTE STORM05 ATTR_DEAD_ID 544
-	effect_amount SET_ATTRIBUTE STORM05 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE STORM05 ATTR_ATTACK {waves[4][attack]}
-	effect_amount SET_ATTRIBUTE STORM05 ATTR_BLAST_LEVEL 1
-	effect_amount SET_ATTRIBUTE STORM05 ATTR_BLAST_RADIUS {waves[4][radius]}
-
-/* {waves[5][minutes]} min fakedeer; {waves[5][attack]} dmg */
-	effect_amount SET_ATTRIBUTE STORM04 ATTR_HERO_STATUS 32
-	effect_amount SET_ATTRIBUTE STORM04 ATTR_RESOURCE_CARRY 1
-	effect_amount SET_ATTRIBUTE STORM06 ATTR_STORAGE_VALUE 3
-	effect_amount SET_ATTRIBUTE STORM06 ATTR_DEAD_ID 333
-	effect_amount SET_ATTRIBUTE STORM06 ATTR_HITPOINTS 0
-	effect_amount SET_ATTRIBUTE STORM06 ATTR_ATTACK {waves[5][attack]}
-	effect_amount SET_ATTRIBUTE STORM06 ATTR_BLAST_LEVEL 1
-	effect_amount SET_ATTRIBUTE STORM06 ATTR_BLAST_RADIUS {waves[5][radius]}
 
 '''.format(waves=waves)
 
