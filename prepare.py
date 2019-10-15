@@ -220,7 +220,6 @@ create_object HOUSE
     set_place_for_every_player
     max_distance_to_players 12
     min_distance_group_placement 2
-    temp_min_distance_group_placement 12
 }
 
 create_object KING
