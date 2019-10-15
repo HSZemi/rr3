@@ -246,6 +246,9 @@ for rmsfile in rmsfiles:
 	endOfPlayerSetup = False
 	inObjectsGeneration = False
 	endOfObjectsGeneration = False
+	seenCreateVillagerStatement = False
+	seenClosingBracketOfCreateVillagerStatement = False
+	shouldPatchObjectGeneration = True
 	create_tc_capture = []
 	tc_capture_active = False
 	foldername = rmsfile[:-4].replace('ZR@','')
@@ -299,10 +302,6 @@ for rmsfile in rmsfiles:
 				inPlayerSetup = False
 				endOfPlayerSetup = False
 			if endOfObjectsGeneration:
-				if scxPart:
-					print(PATCH_OBJECTS_GENERATION, file=outscx)
-				if rmsPart:
-					print(PATCH_OBJECTS_GENERATION, file=outrms)
 				inObjectsGeneration = False
 				endOfObjectsGeneration = False
 			if inObjectsGeneration:
@@ -341,6 +340,18 @@ for rmsfile in rmsfiles:
 				print(line, file=outscx, end='')
 			if rmsPart:
 				print(line, file=outrms, end='')
+			
+			if inObjectsGeneration and shouldPatchObjectGeneration:
+				if seenCreateVillagerStatement and '}' in line:
+					seenClosingBracketOfCreateVillagerStatement = True
+				if 'create_object VILLAGER' in line:
+					seenCreateVillagerStatement = True
+				if seenClosingBracketOfCreateVillagerStatement:
+					if scxPart:
+						print(PATCH_OBJECTS_GENERATION, file=outscx, end='')
+					if rmsPart:
+						print(PATCH_OBJECTS_GENERATION, file=outrms, end='')
+					shouldPatchObjectGeneration = False
 
 		endOfStart = inStart
 		endOfPlayerSetup = inPlayerSetup
@@ -359,10 +370,6 @@ for rmsfile in rmsfiles:
 			inPlayerSetup = False
 			endOfPlayerSetup = False
 		if endOfObjectsGeneration:
-			if scxPart:
-				print(PATCH_OBJECTS_GENERATION, file=outscx)
-			if rmsPart:
-				print(PATCH_OBJECTS_GENERATION, file=outrms)
 			inObjectsGeneration = False
 			endOfObjectsGeneration = False
 		
