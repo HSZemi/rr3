@@ -216,7 +216,6 @@ create_object GOLD
      group_placement_radius     4
      set_tight_grouping
      set_gaia_object_only 
-     place_on_specific_land_id 3 
      terrain_to_place_on  DESERT  
 }
 
@@ -224,7 +223,6 @@ create_object LION
 {
      number_of_objects          10
      set_gaia_object_only 
-     place_on_specific_land_id 3 
      terrain_to_place_on  DESERT  
 }
 
@@ -232,7 +230,6 @@ create_object ELEPHANT
 {
      number_of_objects          30
      set_gaia_object_only 
-     place_on_specific_land_id 4
      terrain_to_place_on  DIRT2  
 }
 
@@ -240,7 +237,6 @@ create_object RELIC
 {
      number_of_objects          20
      set_gaia_object_only 
-     place_on_specific_land_id 4
      terrain_to_place_on  DIRT2  
 }
 
@@ -248,7 +244,6 @@ create_object LION
 {
   number_of_objects          10
   set_gaia_object_only
-  place_on_specific_land_id 4
   terrain_to_place_on  DIRT2  
 }
 
@@ -256,7 +251,6 @@ create_object ELEPHANT
 {
      number_of_objects          30
      set_gaia_object_only 
-     place_on_specific_land_id 5 
      terrain_to_place_on  DIRT2  
 }
 
@@ -264,7 +258,6 @@ create_object LION
 {
      number_of_objects          10
      set_gaia_object_only 
-     place_on_specific_land_id 5 
      terrain_to_place_on  DIRT2  
 }
 
@@ -275,7 +268,6 @@ create_object GOLD
      group_placement_radius     4
      set_tight_grouping
      set_gaia_object_only 
-     place_on_specific_land_id 6
      terrain_to_place_on  DESERT  
 }
 
@@ -283,7 +275,6 @@ create_object LION
 {
      number_of_objects          10
      set_gaia_object_only 
-     place_on_specific_land_id 6 
      terrain_to_place_on  DESERT  
 }
 
