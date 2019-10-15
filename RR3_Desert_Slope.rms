@@ -54,8 +54,6 @@ if MAP_CONSTANTS
 	#const LUREABLE_A 412
 	#const PREDATOR_A 1029
 
-	#const BIRD_A 917
-	#const BIRD_B 1028
 endif
 
 #define ADVANCED_SETTINGS
@@ -11154,10 +11152,6 @@ endif
 	direct_placement
 	terrain_state 0 0 0 2
 
-	/* Remove LOS of birds */
-	effect_amount SET_ATTRIBUTE BIRD_A ATTR_LINE_OF_SIGHT 0
-	effect_amount SET_ATTRIBUTE BIRD_B ATTR_LINE_OF_SIGHT 0
-
 	/* Remove LOS of BUG_PREVENTER */
 	effect_amount SET_ATTRIBUTE BUG_PREVENTER ATTR_LINE_OF_SIGHT 0
 
@@ -14467,19 +14461,7 @@ endif
 			terrain_to_place_on TERRAIN_X
 		}
 	endif
-
-	create_object BIRD_A
-	{
-		number_of_objects rnd(4,8)
-		set_scaling_to_map_size
-	}
-
-	create_object BIRD_B
-	{
-		number_of_objects rnd(2,4)
-		set_scaling_to_map_size
-	}
-
+	
 	create_object RELIC
 	{
 		if TINY_MAP
