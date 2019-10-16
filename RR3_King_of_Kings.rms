@@ -1,0 +1,289 @@
+/* ************ ROECHEL ************ */
+
+#const KING 434
+#const STARTING_FOOD 91
+#const STARTING_WOOD 92
+#const STARTING_STONE 93
+#const STARTING_GOLD 94
+#const AMOUNT_GOLD 3
+#const SET_ATTRIBUTE 0
+#const MOD_RESOURCE 1
+#const ATTR_SET 0
+#const AMOUNT_BUILDING_TRICKLE_GOLD 208
+#const BUILDING_TRICKLE_GOLD 151
+#const POP_HEADROOM 4
+#const DATA_MODE_FLAGS 1
+#const GAIA_SET_PLAYER_DATA -10
+#const ATTR_SET 0
+
+<PLAYER_SETUP>
+  random_placement
+	guard_state KING AMOUNT_GOLD 0 1
+	ai_info_map_type ARABIA 0 0 0
+	effect_amount MOD_RESOURCE STARTING_GOLD ATTR_SET -100
+	effect_amount MOD_RESOURCE STARTING_STONE ATTR_SET -50
+	effect_amount MOD_RESOURCE STARTING_FOOD ATTR_SET 300
+	effect_amount MOD_RESOURCE STARTING_WOOD ATTR_SET 300	
+	effect_amount MOD_RESOURCE POP_HEADROOM ATTR_SET 10
+	effect_amount GAIA_SET_PLAYER_DATA DATA_MODE_FLAGS ATTR_SET 3
+/* Set to 0 for Spies only, 3 for Treason only, 1 for both Spies and Treason */
+
+/* ****************************************************** */
+<TERRAIN_GENERATION>
+
+
+create_terrain FOREST 
+{
+  base_terrain                   GRASS
+  spacing_to_other_terrain_types 5
+  land_percent                   6
+  number_of_clumps               20
+  set_avoid_player_start_areas     
+  set_scale_by_groups
+}
+
+
+
+/* ****************************************************** */
+<OBJECTS_GENERATION>
+
+create_object TOWN_CENTER
+{
+  set_place_for_every_player
+  group_placement_radius     18
+  min_distance_to_players    0
+  max_distance_to_players    0
+}
+
+create_object VILLAGER
+{
+  set_place_for_every_player
+  min_distance_to_players       6
+  max_distance_to_players       6
+}
+
+create_object SCOUT
+{
+  number_of_objects             1
+  set_place_for_every_player
+  min_distance_to_players       7
+  max_distance_to_players       9
+ }
+
+create_object MAP_REVEALER
+{
+number_of_objects		      200
+set_place_for_every_player
+terrain_to_place_on ROAD
+}
+
+if REGICIDE
+create_object VILLAGER
+{
+  number_of_objects             10
+  set_place_for_every_player
+  min_distance_to_players       6
+  max_distance_to_players       6
+}
+
+create_object KING
+{
+  set_place_for_every_player
+  min_distance_to_players       6
+  max_distance_to_players       6
+}
+
+
+endif
+
+/* RESOURCES BY PLAYER */
+
+/* BERRIES */
+create_object FORAGE
+{
+	number_of_objects				4
+	group_placement_radius			3
+	set_tight_grouping
+	set_gaia_object_only
+	set_place_for_every_player
+	min_distance_to_players			8
+	max_distance_to_players			11
+	min_distance_group_placement	6
+}
+
+/* BOARS */
+create_object BOAR
+{
+	number_of_objects				1
+	set_gaia_object_only
+	set_place_for_every_player
+	min_distance_to_players			12
+	max_distance_to_players			15
+}
+
+create_object BOAR
+{
+	number_of_objects				1
+	set_loose_grouping
+	set_gaia_object_only
+	set_place_for_every_player
+	min_distance_to_players			12
+	max_distance_to_players			15
+}
+
+/* BAA BAA */
+create_object SHEEP
+{
+	number_of_objects				4
+	set_loose_grouping
+	set_gaia_object_only
+	set_place_for_every_player
+	min_distance_to_players			7
+	max_distance_to_players			9
+}
+
+create_object SHEEP
+{
+	number_of_groups				2
+	number_of_objects				2
+	set_loose_grouping
+	set_gaia_object_only
+	set_place_for_every_player
+	min_distance_to_players			14
+	max_distance_to_players			19
+}
+
+
+/* DEER */
+create_object DEER
+{
+	number_of_objects				7
+	group_placement_radius			3
+	set_loose_grouping
+	set_gaia_object_only
+	set_place_for_every_player
+	min_distance_to_players			10
+	max_distance_to_players			14
+	min_distance_group_placement	9
+}
+
+/* HOME GOLD */
+
+create_object GOLD
+{
+  number_of_groups 2
+  number_of_objects 4
+  group_placement_radius 3
+  set_tight_grouping
+  set_gaia_object_only
+  set_place_for_every_player
+  min_distance_to_players 13
+  max_distance_to_players 17
+  min_distance_group_placement 8
+}
+
+/* DISTANT GOLD */
+
+create_object GOLD
+{
+  
+  number_of_groups 1
+  number_of_objects 4
+  group_placement_radius 3
+  set_tight_grouping
+  set_gaia_object_only
+  set_place_for_every_player
+  min_distance_to_players 20
+  max_distance_to_players 23
+  min_distance_group_placement 8
+}
+
+
+/* HOME STONE */
+
+create_object STONE
+{
+  number_of_groups 1
+  number_of_objects 5
+  group_placement_radius 3
+  set_tight_grouping
+  set_gaia_object_only
+  set_place_for_every_player
+  min_distance_to_players 13
+  max_distance_to_players 16
+  min_distance_group_placement 8
+}
+
+/* DISTANT STONE */
+
+create_object STONE
+{
+  number_of_groups 1
+  number_of_objects 4
+  group_placement_radius 3
+  set_tight_grouping
+  set_gaia_object_only
+  set_place_for_every_player
+  min_distance_to_players 19
+  max_distance_to_players 22
+  min_distance_group_placement 8
+}
+
+create_object RELIC
+{
+  number_of_objects 5
+  min_distance_to_players 25
+  temp_min_distance_group_placement 20
+}
+
+/* STRAGGLER TREES */
+create_object OAKTREE
+{
+	number_of_objects				2
+	set_gaia_object_only
+	set_place_for_every_player
+	min_distance_to_players			4
+	max_distance_to_players			5
+	min_distance_group_placement	2
+}
+create_object PINETREE
+{
+	number_of_objects				3
+	set_gaia_object_only
+	set_place_for_every_player
+	min_distance_to_players			6
+	max_distance_to_players			8
+	min_distance_group_placement	2
+}
+
+/* WOLVES */
+create_object WOLF
+{
+	number_of_groups				3
+	number_of_objects				1
+	set_scaling_to_map_size
+	set_gaia_object_only
+	min_distance_group_placement	12
+	min_distance_to_players			40
+	max_distance_to_players			120
+}
+
+create_object WOLF
+{
+	number_of_objects				2
+	set_gaia_object_only
+	set_place_for_every_player
+	min_distance_group_placement	12
+	min_distance_to_players			30
+	max_distance_to_players			40
+}
+
+/* BIRDIES */
+create_object HAWK
+{
+	number_of_objects				6
+	set_scaling_to_map_size
+}
+
+/* ****************************************************** */
+
