@@ -10,6 +10,8 @@ waves = [
 	{'minutes': 15, 'radius':60, 'attack': 1}, # 150
 ]
 
+NO_HOUSES = ['RR3_Settlers']
+
 food_per_minute = 15 # .25 food per second
 for wave in waves:
 	wave['food'] = food_per_minute * wave['minutes']
@@ -223,18 +225,19 @@ create_object VILLAGER
     max_distance_to_players 7
 }
 
+create_object KING
+{
+    set_place_for_every_player
+    max_distance_to_players 5
+}
+'''
+PATCH_OBJECTS_GENERATION_HOUSES = '''
 create_object HOUSE
 {
     number_of_groups 2
     set_place_for_every_player
     max_distance_to_players 12
     min_distance_group_placement 2
-}
-
-create_object KING
-{
-    set_place_for_every_player
-    max_distance_to_players 5
 }
 
 '''
@@ -357,8 +360,12 @@ for rmsfile in rmsfiles:
 				if seenClosingBracketOfCreateVillagerStatement:
 					if scxPart:
 						print(PATCH_OBJECTS_GENERATION, file=outscx, end='')
+						if foldername not in NO_HOUSES:
+							print(PATCH_OBJECTS_GENERATION_HOUSES, file=outscx, end='')
 					if rmsPart:
 						print(PATCH_OBJECTS_GENERATION, file=outrms, end='')
+						if foldername not in NO_HOUSES:
+							print(PATCH_OBJECTS_GENERATION_HOUSES, file=outrms, end='')
 					shouldPatchObjectGeneration = False
 
 		endOfStart = inStart
