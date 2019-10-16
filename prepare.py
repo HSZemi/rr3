@@ -22,6 +22,7 @@ PATCH_HEADER = '''/* ** REGICIDE RUMBLE 3 ** */
 /* - Battle Royale */
 /* - Custom Regicide with Treason instead of Spies */
 /* - Relic victory disabled */
+/* - Wonders disabled */
 /* - Kings drop 1 relic on death */
 /* - Bombard Towers disabled */
 /* - Masonry, Architecture and Hoardings disabled */
@@ -47,6 +48,9 @@ PATCH_START = '''
 
 /* relic spawning */
 #const PRIEST_WITH_RELIC 1025
+
+/* Disable wonders */
+#const WONDER_TECH 144
 
 /* Disable Bombard Towers */
 #const BBT_TECH 64
@@ -90,6 +94,10 @@ PATCH_PLAYER_SETUP = '''
 
 effect_amount SET_ATTRIBUTE KING ATTR_DEAD_ID 1025
 effect_amount SET_ATTRIBUTE PRIEST_WITH_RELIC ATTR_HITPOINTS 0
+
+/* Disable wonders */
+
+effect_amount DISABLE_TECH WONDER_TECH ATTR_DISABLE 144
 
 /* disable bombard towers */
 
