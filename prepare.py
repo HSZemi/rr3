@@ -269,7 +269,7 @@ for rmsfile in rmsfiles:
 		print(PATCH_HEADER.format(mapname=foldername, variant='scenario generation part for ZR map'), file=outscx)
 		print(PATCH_HEADER.format(mapname=foldername, variant='rms part for ZR map'), file=outrms)
 		for line in inrms:
-			line = line.replace(' RELIC', ' PRIEST_WITH_RELIC')
+			line = line.replace('create_object RELIC', 'create_object PRIEST_WITH_RELIC')
 			if '<PLAYER_SETUP>' in line:
 				endOfStart = inStart
 				endOfObjectsGeneration = inObjectsGeneration
