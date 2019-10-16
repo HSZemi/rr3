@@ -5,9 +5,9 @@ import math
 
 
 waves = [
-	{'minutes': 90, 'radius':20, 'attack': 1},
-	{'minutes': 120, 'radius':40, 'attack': 1},
-	{'minutes': 150, 'radius':60, 'attack': 1},
+	{'minutes': 5, 'radius':20, 'attack': 1}, # 90
+	{'minutes': 10, 'radius':40, 'attack': 1}, # 120
+	{'minutes': 15, 'radius':60, 'attack': 1}, # 150
 ]
 
 food_per_minute = 15 # .25 food per second
