@@ -61,8 +61,7 @@ PATCH_START = '''
 #const ARCHITECTURE_TECH 51
 #const HOARDINGS_TECH 379
 
-/* Disable Byzantine building HP bonus */
-#const BYZ_10_HP_TECH 283
+/* Nerf Byzantine building HP bonus */
 #const BYZ_20_HP_TECH 417
 #const BYZ_30_HP_TECH 418
 #const BYZ_40_HP_TECH 419
@@ -110,9 +109,8 @@ effect_amount DISABLE_TECH MASONRY_TECH ATTR_DISABLE 50
 effect_amount DISABLE_TECH ARCHITECTURE_TECH ATTR_DISABLE 51
 effect_amount DISABLE_TECH HOARDINGS_TECH ATTR_DISABLE 379
 
-/* Disable Byzantine building HP bonus */
+/* Nerf Byzantine building HP bonus */
 
-effect_amount DISABLE_TECH BYZ_10_HP_TECH ATTR_DISABLE 283
 effect_amount DISABLE_TECH BYZ_20_HP_TECH ATTR_DISABLE 417
 effect_amount DISABLE_TECH BYZ_30_HP_TECH ATTR_DISABLE 418
 effect_amount DISABLE_TECH BYZ_40_HP_TECH ATTR_DISABLE 419
