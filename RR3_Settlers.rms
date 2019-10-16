@@ -869,11 +869,3 @@ min_distance_group_placement 7
 temp_min_distance_group_placement 14
 set_scaling_to_map_size
 }
-
-
-create_object MACAW
-{
-set_gaia_object_only
-number_of_objects 5
-set_scaling_to_map_size
-}
