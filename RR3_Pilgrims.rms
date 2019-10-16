@@ -305,21 +305,6 @@ create_object VILLAGER
 
 
 
-/* SPECIAL STUFF FOR REGICIDE */
-
-if REGICIDE
-create_object KING
-{
-  set_place_for_every_player
-  min_distance_to_players       2
-  max_distance_to_players       6
-}
-endif
-
-
-
-
-
 /* NEAR GOLD */
 
 create_object GOLD

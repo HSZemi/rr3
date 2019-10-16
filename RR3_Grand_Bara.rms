@@ -14252,47 +14252,12 @@ endif
 		max_distance_to_players 7
 		min_distance_group_placement 1
 	}
-
-	if REGICIDE
-		create_object VILLAGER
-		{
-			set_place_for_every_player
-			number_of_objects 7
-			min_distance_to_players 6
-			max_distance_to_players 8
-			min_distance_group_placement 1
-		}
-
-		create_object CASTLE
-		{
-			set_place_for_every_player
-			min_distance_to_players 12
-			max_distance_to_players 14
-			max_distance_to_other_zones 8
-			min_distance_group_placement 6
-		}
-
-		create_object KING
-		{
-			set_place_for_every_player
-			min_distance_to_players 8
-			max_distance_to_players 10
-		}
-
-		create_object QUEEN
-		{
-			set_place_for_every_player
-			min_distance_to_players 8
-			max_distance_to_players 10
-		}
-	else
-		create_object SCOUT
-		{
-			set_place_for_every_player
-			min_distance_to_players 7
-			max_distance_to_players 9
-		}
-	endif
+	create_object SCOUT
+	{
+		set_place_for_every_player
+		min_distance_to_players 7
+		max_distance_to_players 9
+	}
 
 	if DEATH_MATCH
 	else

@@ -222,40 +222,18 @@
 	create_object VILLAGER
 	{
 		set_place_for_every_player
-
-		if REGICIDE
-			number_of_objects 10
-		else
-			number_of_objects 1
-		endif
-
+		number_of_objects 1
 		min_distance_to_players 0
 		max_distance_to_players 128
 		temp_min_distance_group_placement 16
 	}
-
-	if REGICIDE
-		create_object KING
-		{
-			set_place_for_every_player
-			min_distance_to_players 8
-			max_distance_to_players 10
-		}		
-
-		create_object QUEEN
-		{
-			set_place_for_every_player
-			min_distance_to_players 8
-			max_distance_to_players 10
-		}	
-	else
-		create_object NOMAD_SCOUT
-		{
-			set_place_for_every_player
-			min_distance_to_players 7
-			max_distance_to_players 9
-		}
-	endif
+	
+	create_object NOMAD_SCOUT
+	{
+		set_place_for_every_player
+		min_distance_to_players 7
+		max_distance_to_players 9
+	}
 
 	create_object STUMP
 	{

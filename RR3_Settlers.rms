@@ -680,15 +680,6 @@ min_distance_to_players 0
 max_distance_to_players 3
 }
 
-if REGICIDE
-create_object KING
-{
-set_place_for_every_player
-min_distance_to_players 0
-max_distance_to_players 3
-}
-endif
-
 create_object TRANSPORT_SHIP
 {
 number_of_objects 1

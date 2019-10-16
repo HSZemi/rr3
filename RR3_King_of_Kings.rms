@@ -77,24 +77,6 @@ set_place_for_every_player
 terrain_to_place_on ROAD
 }
 
-if REGICIDE
-create_object VILLAGER
-{
-  number_of_objects             10
-  set_place_for_every_player
-  min_distance_to_players       6
-  max_distance_to_players       6
-}
-
-create_object KING
-{
-  set_place_for_every_player
-  min_distance_to_players       6
-  max_distance_to_players       6
-}
-
-
-endif
 
 /* RESOURCES BY PLAYER */
 
