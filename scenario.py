@@ -21,9 +21,9 @@ height = scenario.tiles.height
 rock = 623
 torch = 499
 countdowns = [
-	1137, #/* tiger */
-	860,  #/* monkey */
-	1135  #/* komodo */
+	303,  #/* seagulls */ 
+	333, #/* fakedeer */
+	862  #/* stormydog */
 	]
 
 # spawners and rocks
