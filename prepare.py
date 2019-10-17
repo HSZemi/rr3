@@ -245,8 +245,6 @@ create_object VILLAGER
     number_of_groups 7
     number_of_objects 1
     set_place_for_every_player
-    temp_min_distance_group_placement 2
-    min_distance_group_placement 2
     min_distance_to_players 3
     max_distance_to_players 7
 }
