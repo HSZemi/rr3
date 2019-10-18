@@ -5,9 +5,9 @@ import math
 
 
 waves = [
-	{'minutes': 90, 'radius': 20}, # 90
-	{'minutes': 120, 'radius': 40}, # 120
-	{'minutes': 150, 'radius': 60}, # 150
+	{'minutes': 90, 'radius': 10}, # 90
+	{'minutes': 120, 'radius': 20}, # 120
+	{'minutes': 150, 'radius': 30}, # 150
 ]
 
 NO_HOUSES = ['RR3_Settlers']
