@@ -18,6 +18,7 @@ scenario = Scenario(inputfile)
 width = scenario.tiles.width
 height = scenario.tiles.height
 
+relic = 285
 rock = 623
 torch = 499
 countdowns = [
@@ -25,6 +26,10 @@ countdowns = [
 	333, #/* fakedeer */
 	862  #/* stormydog */
 	]
+
+# relics
+for i in range(50):
+	scenario.units.new(x=0.5,y=0.5, owner=0, type=relic)
 
 # spawners and rocks
 
