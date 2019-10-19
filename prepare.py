@@ -387,6 +387,8 @@ for rmsfile in rmsfiles:
 			if '<TERRAIN_GENERATION>' in line:
 				scxPart = True
 				rmsPart = False
+				if foldername == 'RR3_King_of_Kings':
+					rmsPart = True
 			if '<CONNECTION_GENERATION>' in line:
 				scxPart = True
 				rmsPart = False
