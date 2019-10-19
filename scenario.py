@@ -62,6 +62,7 @@ rock = 623
 torch = 499
 deepwater = 22
 beach = 37
+haystack = 857
 countdowns = [
 	303,  #/* seagulls */ 
 	333, #/* fakedeer */
@@ -78,10 +79,7 @@ areas = [
 	]
 for area in areas:
 	for tile in area:
-		if (tile.x + tile.y) % 2 == 0:
-			tile.type = deepwater
-		else:
-			tile.type = beach
+		tile.type = deepwater
 
 # relics
 for i in range(50):
@@ -98,5 +96,41 @@ place_rectangle(9, 1, rock)
 for distance in [10, 20, 30]:
 	d = distance + 10
 	place_rectangle(d, 13, torch)
+
+letters = {}
+letters['R'] = [(0,y) for y in range(7)] + [(x,0) for x in range(1,4)] + [(x,2) for x in range(1,4)] + [(4,1)] + [(4,y) for y in range(3,7)]
+letters['E'] = [(x,0) for x in range(5)] + [(x,6) for x in range(5)] + [(x,2) for x in range(1,3)] + [(0,y) for y in range(1,6)]
+letters['G'] = [(0,y) for y in range(1,6)] + [(4,y) for y in range(2,6)] + [(x,0) for x in range(1,5)] + [(x,2) for x in range(2,4)] + [(x,6) for x in range(1,4)] 
+letters['I'] = [(x,0) for x in range(3)] + [(x,6) for x in range(3)] + [(1,y) for y in range(1,6)]
+letters['C'] = [(0,y) for y in range(1,6)] + [(x,0) for x in range(1,4)] + [(x,6) for x in range(1,4)] + [(4,1),(4,5)]
+letters['D'] = [(x,0) for x in range(4)] + [(x,6) for x in range(4)] + [(0,y) for y in range(1,6)] + [(4,y) for y in range(1,6)]
+letters['U'] = [(0,y) for y in range(6)] + [(4,y) for y in range(6)] + [(x,6) for x in range(1,4)]
+letters['M'] = [(0,y) for y in range(7)] + [(4,y) for y in range(7)] + [(1,1),(2,2),(3,1)]
+letters['B'] = [(0,y) for y in range(7)] + [(x,0) for x in range(1,4)] + [(x,2) for x in range(1,4)] + [(x,6) for x in range(1,4)] + [(4,y) for y in range(3,6)] + [(4,1)]
+letters['L'] = [(0,y) for y in range(7)] + [(x,6) for x in range(1,5)]
+letters['3'] = [(0,1),(0,5)] + [(x,0) for x in range(1,4)] + [(x,6) for x in range(1,4)] + [(x,3) for x in range(2,4)] + [(4,y) for y in range(1,3)] + [(4,y) for y in range(4,6)]
+letters[' '] = []
+
+def write_letter_at(letter,x,y,terrain):
+	for pos in letters[letter]:
+		scenario.tiles[pos[1]+y][pos[0]+x].type = terrain
+		scenario.units.new(x=pos[0]+x+0.5,y=pos[1]+y+0.5, owner=0, type=haystack)
+
+def get_width(letter):
+	if letter == ' ':
+		return 1
+	if letter == 'I':
+		return 3
+	return 5
+
+total_width = 0
+for char in 'REGICIDE RUMBLE 3':
+	total_width += get_width(char) + 1
+
+x = width - total_width - 15
+y = 1
+for char in 'REGICIDE RUMBLE 3':
+	write_letter_at(char,x,y,beach)
+	x += get_width(char) + 1
 
 scenario.save(inputfile[:-4] + '_patched.scx')
