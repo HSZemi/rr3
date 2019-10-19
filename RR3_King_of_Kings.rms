@@ -20,13 +20,6 @@
   random_placement
 	guard_state KING AMOUNT_GOLD 0 1
 	ai_info_map_type ARABIA 0 0 0
-	effect_amount MOD_RESOURCE STARTING_GOLD ATTR_SET -100
-	effect_amount MOD_RESOURCE STARTING_STONE ATTR_SET -50
-	effect_amount MOD_RESOURCE STARTING_FOOD ATTR_SET 300
-	effect_amount MOD_RESOURCE STARTING_WOOD ATTR_SET 300	
-	effect_amount MOD_RESOURCE POP_HEADROOM ATTR_SET 10
-	effect_amount GAIA_SET_PLAYER_DATA DATA_MODE_FLAGS ATTR_SET 3
-/* Set to 0 for Spies only, 3 for Treason only, 1 for both Spies and Treason */
 
 /* ****************************************************** */
 <TERRAIN_GENERATION>
