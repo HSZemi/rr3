@@ -21,11 +21,25 @@ height = scenario.tiles.height
 relic = 285
 rock = 623
 torch = 499
+deepwater = 22
 countdowns = [
 	303,  #/* seagulls */ 
 	333, #/* fakedeer */
 	862  #/* stormydog */
 	]
+
+# water it down
+
+# southwest
+areas = [
+	scenario.tiles.getArea(0,0,width-1,1),
+	scenario.tiles.getArea(0,height-2,width-1,height-1),
+	scenario.tiles.getArea(0,0,1,height-1),
+	scenario.tiles.getArea(width-2,0,width-1,height-1)
+	]
+for area in areas:
+	for tile in area:
+		tile.type = deepwater
 
 # relics
 for i in range(50):
