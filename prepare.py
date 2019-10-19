@@ -12,9 +12,12 @@ waves = [
 
 NO_HOUSES = ['RR3_Settlers']
 
+radius_offset = 10
+
 food_per_minute = 15 # .25 food per second
 for wave in waves:
 	wave['food'] = food_per_minute * wave['minutes']
+	wave['radius'] += radius_offset
 
 
 PATCH_HEADER = '''/* ** REGICIDE RUMBLE 3 ** */
