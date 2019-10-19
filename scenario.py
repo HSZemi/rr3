@@ -58,7 +58,7 @@ height = scenario.tiles.height
 
 
 relic = 285
-rock = 623
+rock = 855
 torch = 499
 deepwater = 22
 beach = 37
@@ -90,7 +90,8 @@ for unit in countdowns:
 	place_rectangle(0, 5, unit)
 
 # rocks
-place_rectangle(9, 1, rock)
+for i in range(10):
+	place_rectangle(i, 1, rock)
 
 # torches
 for distance in [10, 20, 30]:
