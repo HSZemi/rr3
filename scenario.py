@@ -3,26 +3,26 @@
 from agescx import *
 import sys
 
-def place_rectangle(distance, spacing, object_to_place):
-	# southwest
-	x = distance
-	for y in range(distance, height-distance, spacing):
-		scenario.units.new(x=x+0.5,y=y+0.5, owner=0, type=object_to_place)
+def place_rectangle(distance, spacing, object_to_place, southwest=True, northeast=True, northwest=True, southeast=True):
+	if southwest:
+		x = distance
+		for y in range(distance, height-distance, spacing):
+			scenario.units.new(x=x+0.5,y=y+0.5, owner=0, type=object_to_place)
 
-	# northeast
-	x = width-distance-1
-	for y in range(distance, height-distance, spacing):
-		scenario.units.new(x=x+0.5,y=y+0.5, owner=0, type=object_to_place)
+	if northeast:
+		x = width-distance-1
+		for y in range(distance, height-distance, spacing):
+			scenario.units.new(x=x+0.5,y=y+0.5, owner=0, type=object_to_place)
 
-	# northwest
-	y = distance
-	for x in range(distance+spacing, width-distance-1, spacing):
-		scenario.units.new(x=x+0.5,y=y+0.5, owner=0, type=object_to_place)
+	if northwest:
+		y = distance
+		for x in range(distance+spacing, width-distance-1, spacing):
+			scenario.units.new(x=x+0.5,y=y+0.5, owner=0, type=object_to_place)
 
-	# southeast
-	y = height-distance-1
-	for x in range(distance+spacing, width-distance-1, spacing):
-		scenario.units.new(x=x+0.5,y=y+0.5, owner=0, type=object_to_place)
+	if southeast:
+		y = height-distance-1
+		for x in range(distance+spacing, width-distance-1, spacing):
+			scenario.units.new(x=x+0.5,y=y+0.5, owner=0, type=object_to_place)
 	
 
 if(len(sys.argv) < 2):
@@ -34,6 +34,8 @@ inputfile = sys.argv[1]
 if inputfile[-4:] != '.scx':
 	print('Input file is not a .scx file!')
 	sys.exit()
+
+pilgrims = inputfile[-12:] == 'Pilgrims.scx'
 
 scenario = Scenario(inputfile)
 
@@ -86,8 +88,13 @@ for i in range(50):
 	scenario.units.new(x=0.5,y=0.5, owner=0, type=relic)
 
 #spawners
-for unit in countdowns:
-	place_rectangle(0, 5, unit)
+if pilgrims:
+	for unit in countdowns:
+		place_rectangle(0, 5, unit, southwest=False, northwest=False)
+		scenario.units.new(x=170+0.5,y=180+0.5, owner=0, type=unit)
+else:
+	for unit in countdowns:
+		place_rectangle(0, 5, unit)
 
 # rocks
 for i in range(10):
@@ -96,7 +103,10 @@ for i in range(10):
 # torches
 for distance in [10, 20, 30]:
 	d = distance + 10
-	place_rectangle(d, 13, torch)
+	if pilgrims:
+		place_rectangle(d, 13, torch, southwest=False, northwest=False)
+	else:
+		place_rectangle(d, 13, torch)
 
 letters = {}
 letters['R'] = [(0,y) for y in range(7)] + [(x,0) for x in range(1,4)] + [(x,2) for x in range(1,4)] + [(4,1)] + [(4,y) for y in range(3,7)]
