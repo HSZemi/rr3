@@ -23,7 +23,7 @@ def place_rectangle(distance, spacing, object_to_place, southwest=True, northeas
 		y = height-distance-1
 		for x in range(distance+spacing, width-distance-1, spacing):
 			scenario.units.new(x=x+0.5,y=y+0.5, owner=0, type=object_to_place)
-	
+
 
 if(len(sys.argv) < 2):
 	print('Usage: ./{} <scx file>'.format(sys.argv[0]))
@@ -82,6 +82,51 @@ areas = [
 for area in areas:
 	for tile in area:
 		tile.type = deepwater
+
+areas = [
+	scenario.tiles.getArea(10,10,width-10,10),
+	scenario.tiles.getArea(10,height-11,width-10,height-11),
+	scenario.tiles.getArea(10,10,10,height-10),
+	scenario.tiles.getArea(width-11,10,width-11,height-11),
+	scenario.tiles.getArea(10,10,10,10),
+	scenario.tiles.getArea(width-11,10,width-11,10),
+	scenario.tiles.getArea(10,height-11,10,height-11),
+	scenario.tiles.getArea(width-11,height-11,width-11,height-11)
+	]
+
+for tile in areas[0]:
+	for t in scenario.tiles.getArea(tile.x,0,tile.x,9):
+		t.elevation = tile.elevation
+
+for tile in areas[1]:
+	for t in scenario.tiles.getArea(tile.x,height-10,tile.x,height-1):
+		t.elevation = tile.elevation
+
+for tile in areas[2]:
+	for t in scenario.tiles.getArea(0,tile.y,9,tile.y):
+		t.elevation = tile.elevation
+
+for tile in areas[3]:
+	for t in scenario.tiles.getArea(width-10,tile.y,width-1,tile.y):
+		t.elevation = tile.elevation
+
+
+for tile in areas[4]:
+	for t in scenario.tiles.getArea(0,0,9,9):
+		t.elevation = tile.elevation
+
+for tile in areas[5]:
+	for t in scenario.tiles.getArea(width-10,0,width-1,9):
+		t.elevation = tile.elevation
+
+for tile in areas[6]:
+	for t in scenario.tiles.getArea(0,height-10,9,height-1):
+		t.elevation = tile.elevation
+
+for tile in areas[7]:
+	for t in scenario.tiles.getArea(width-10,height-10,width-1,height-1):
+		t.elevation = tile.elevation
+
 
 # relics
 for i in range(50):
