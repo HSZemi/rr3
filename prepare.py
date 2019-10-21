@@ -5,9 +5,9 @@ import math
 
 
 waves = [
-	{'minutes': 90, 'radius': 10}, # 90
-	{'minutes': 120, 'radius': 20}, # 120
-	{'minutes': 150, 'radius': 30}, # 150
+	{'minutes': 120, 'radius': 10}, # 2h
+	{'minutes': 150, 'radius': 20}, # 2.5h
+	{'minutes': 180, 'radius': 30}, # 3h
 ]
 
 radius_offset = 10
