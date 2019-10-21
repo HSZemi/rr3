@@ -553,9 +553,8 @@ create_object MARLIN2
 create_object RELIC
 {
    number_of_objects             5
-   min_distance_to_players       25
+   min_distance_to_players    35
    temp_min_distance_group_placement 20
-place_on_specific_land_id     21
 }
 
 create_object BOAR
@@ -564,8 +563,7 @@ create_object BOAR
   group_placement_radius     3
   set_loose_grouping
   set_gaia_object_only
-  min_distance_to_players    25
-place_on_specific_land_id     21
+  min_distance_to_players    35
 }
 
 create_object SHEEP
@@ -573,8 +571,7 @@ create_object SHEEP
    number_of_objects 4
    set_gaia_object_only
    set_scaling_to_player_number
-   min_distance_to_players    25
-place_on_specific_land_id     21
+   min_distance_to_players    35
 }
 
 create_object GOLD
@@ -586,8 +583,7 @@ create_object GOLD
   set_gaia_object_only
   set_scaling_to_player_number
   min_distance_group_placement  10
-  min_distance_to_players    25
-place_on_specific_land_id     21
+  min_distance_to_players    35
 }
 
 create_object STONE
@@ -598,9 +594,8 @@ create_object STONE
   set_tight_grouping
   set_gaia_object_only
   set_scaling_to_player_number
- min_distance_to_players    25
+ min_distance_to_players    35
   min_distance_group_placement  10
-place_on_specific_land_id     21
 }
 
 create_object FORAGE
@@ -612,8 +607,7 @@ create_object FORAGE
   set_gaia_object_only
   set_scaling_to_player_number
   min_distance_group_placement  7
-  min_distance_to_players    25
-place_on_specific_land_id     21
+  min_distance_to_players    35
 }
 
 create_object WOLF
@@ -622,8 +616,7 @@ create_object WOLF
   set_gaia_object_only
   set_scaling_to_player_number
   min_distance_group_placement  6
-  min_distance_to_players    25
-place_on_specific_land_id     21
+  min_distance_to_players    35
 }
 
 /* RESOURCES BY MAP */
@@ -637,7 +630,7 @@ create_object FORAGE
   set_tight_grouping
   set_gaia_object_only
   min_distance_group_placement  7
-  place_on_specific_land_id     21
+  min_distance_to_players    35
 }
 endif
 
@@ -650,7 +643,7 @@ create_object FORAGE
   set_tight_grouping
   set_gaia_object_only
   min_distance_group_placement  7
-  place_on_specific_land_id     21
+  min_distance_to_players    35
 }
 endif
 
@@ -663,7 +656,7 @@ create_object FORAGE
   set_tight_grouping
   set_gaia_object_only
   min_distance_group_placement  7
-  place_on_specific_land_id     21
+  min_distance_to_players    35
 }
 endif
 
@@ -677,7 +670,7 @@ create_object GOLD
   set_tight_grouping
   set_gaia_object_only
   min_distance_group_placement  7
-  place_on_specific_land_id     21
+  min_distance_to_players    35
 }
 endif
 
@@ -691,7 +684,7 @@ create_object GOLD
   set_tight_grouping
   set_gaia_object_only
   min_distance_group_placement  7
-  place_on_specific_land_id     21
+  min_distance_to_players    35
 }
 endif
 
@@ -705,7 +698,7 @@ create_object GOLD
   set_tight_grouping
   set_gaia_object_only
   min_distance_group_placement  7
-  place_on_specific_land_id     21
+  min_distance_to_players    35
 }
 endif
 
@@ -719,7 +712,7 @@ create_object STONE
   set_tight_grouping
   set_gaia_object_only
   min_distance_group_placement  7
-  place_on_specific_land_id     21
+  min_distance_to_players    35
 }
 endif
 
@@ -733,7 +726,7 @@ create_object STONE
   set_tight_grouping
   set_gaia_object_only
   min_distance_group_placement  7
-  place_on_specific_land_id     21
+  min_distance_to_players    35
 }
 endif
 
@@ -747,7 +740,7 @@ create_object STONE
   set_tight_grouping
   set_gaia_object_only
   min_distance_group_placement  7
-  place_on_specific_land_id     21
+  min_distance_to_players    35
 }
 endif
 
