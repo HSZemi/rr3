@@ -29,7 +29,7 @@ PATCH_HEADER = '''/* ** REGICIDE RUMBLE 3 ** */
 /* - Kings drop 1 relic on death */
 /* - Bombard Towers disabled */
 /* - Masonry, Architecture and Hoardings disabled */
-/* - Byzantine HP bonus disabled */
+/* - Byzantine HP bonus nerfed */
 /* - Defensive structures (Castles, Towers, Walls and Gates) -30% HP */
 
 '''
