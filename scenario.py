@@ -136,7 +136,8 @@ for i in range(50):
 if pilgrims:
 	for unit in countdowns:
 		place_rectangle(0, 5, unit, southwest=False, northwest=False)
-		scenario.units.new(x=170+0.5,y=180+0.5, owner=0, type=unit)
+		for island in [(170,180), (160,150), (190,140), (200,160), (200,180), (190,200), (170,200), (140, 190), (140,170)]:
+			scenario.units.new(x=island[0]+0.5,y=island[1]+0.5, owner=0, type=unit)
 else:
 	for unit in countdowns:
 		place_rectangle(0, 5, unit)
