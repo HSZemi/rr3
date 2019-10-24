@@ -11171,8 +11171,11 @@ if CUSTOM_CONSTANTS
 	#const SHARKATZOR 1222
 endif
 
+#const BAMBOO_FOREST_TREE 348
+
 <PLAYER_SETUP>
 	direct_placement
+	effect_amount SET_ATTRIBUTE BAMBOO_FOREST_TREE ATTR_STORAGE_VALUE 200
 
 	/* Change palm trees to dragon trees */
 	effect_amount GAIA_UPGRADE_UNIT TREE_PALM TREE_DRAGON 0
