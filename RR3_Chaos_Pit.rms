@@ -3,10 +3,12 @@
  * Chaos Pit map for the ECL, used in the East Asia region.
  * Based on the Chaos Pit map from Nations Cup 2017.
  */
+#const BAMBOO_FOREST_TREE 348
 
 
 <PLAYER_SETUP>
 random_placement
+effect_amount SET_ATTRIBUTE BAMBOO_FOREST_TREE ATTR_STORAGE_VALUE 200
 
 <LAND_GENERATION>
 
