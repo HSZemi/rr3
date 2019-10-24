@@ -8,6 +8,7 @@
 #const ACACIAFOREST 41
 #const ELEPHANT 936
 #const ZEBRA 1019
+#const BAMBOO_FOREST_TREE 348
 
 
 /* ****************************************************** */
@@ -17,6 +18,7 @@ random_placement
 
   nomad_resources
   ai_info_map_type STEPPE 1 0 0
+  effect_amount SET_ATTRIBUTE BAMBOO_FOREST_TREE ATTR_STORAGE_VALUE 200
 
 <LAND_GENERATION>
 
