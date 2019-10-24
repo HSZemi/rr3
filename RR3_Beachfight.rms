@@ -10,6 +10,7 @@ ai_info_map_type        ARABIA
 <PLAYER_SETUP>
 
 random_placement
+effect_amount SET_ATTRIBUTE MARKET ATTR_TERRAIN_ID 10
 
 <LAND_GENERATION>
 base_terrain BEACH
