@@ -15,11 +15,12 @@
 #const DATA_MODE_FLAGS 1
 #const GAIA_SET_PLAYER_DATA -10
 #const ATTR_SET 0
+#const BAMBOO_FOREST_TREE 348
 
 <PLAYER_SETUP>
-  random_placement
-	guard_state KING AMOUNT_GOLD 0 1
-	ai_info_map_type ARABIA 0 0 0
+random_placement
+ai_info_map_type ARABIA 0 0 0
+effect_amount SET_ATTRIBUTE BAMBOO_FOREST_TREE ATTR_STORAGE_VALUE 200
 
 /* ****************************************************** */
 <TERRAIN_GENERATION>
